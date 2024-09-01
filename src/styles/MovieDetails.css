@@ -1,0 +1,21 @@
+.pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+.episodes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.episodes-grid .ant-btn {
+    flex: 0 0 70px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}

@@ -1,0 +1,13 @@
+.slick-slide {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.movie-card {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
