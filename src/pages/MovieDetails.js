@@ -119,9 +119,6 @@ const MovieDetails = () => {
           <Paragraph>
             <strong>Thời lượng:</strong> {movie.time}
           </Paragraph>
-          <Paragraph>
-            <strong>Số tập:</strong> {movie.episode_total}
-          </Paragraph>
         </div>
       </div>
 
