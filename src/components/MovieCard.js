@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/MovieCard.css";
 
 const { Meta } = Card;
