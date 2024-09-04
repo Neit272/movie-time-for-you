@@ -109,7 +109,7 @@ const SearchResults = ({ title, apiUrl }) => {
 
   return (
     <div style={{ padding: "0 24px" }}>
-      <Title level={2}>{pageTitle}</Title>
+      {movies.length > 0 && <Title level={2}>{pageTitle}</Title>}
 
       {movies.length === 0 ? (
         <Title level={1} style={{ textAlign: "center", marginTop: "20px" }}>
