@@ -3,9 +3,9 @@ import Hls from "hls.js";
 
 const HlsPlayer = ({ src, controls = true, autoPlay = false, style }) => {
   const videoRef = useRef(null);
-  const adStartTime = 901; // 15 minutes in seconds
-  const adEndTime = 931; // Ad end time in seconds
-  const skipToTime = 932; // Time to skip to after the ad
+  const adStartTime = 901;
+  const adEndTime = 931;
+  const skipToTime = 932;
 
   useEffect(() => {
     if (Hls.isSupported()) {
@@ -36,22 +36,18 @@ const HlsPlayer = ({ src, controls = true, autoPlay = false, style }) => {
       }
     }
 
-    // Function to handle time updates and skip ad
     const handleTimeUpdate = () => {
       const currentTime = videoRef.current.currentTime;
 
-      // If the current time is between 900 and 930 seconds, skip to 931 seconds
       if (currentTime >= adStartTime && currentTime <= adEndTime) {
-        videoRef.current.currentTime = skipToTime; // Skip the ad
+        videoRef.current.currentTime = skipToTime;
         console.log("Ad skipped: Jumped to 931 seconds");
       }
     };
 
-    // Attach the time update event listener
     const video = videoRef.current;
     video.addEventListener("timeupdate", handleTimeUpdate);
 
-    // Clean up event listener when the component unmounts
     return () => {
       video.removeEventListener("timeupdate", handleTimeUpdate);
     };
