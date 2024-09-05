@@ -24,11 +24,6 @@ This app fetches data from an external movie API to display movie details, categ
 ## How to Run Locally
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/neit272/movie-time-for-you.git
-## How to Run Locally
-
-1. Clone the repository:
     ```bash
     git clone https://github.com/neit272/movie-time-for-you.git
     ```
@@ -76,8 +71,4 @@ or
 
 Contributions are welcome! Feel free to submit a pull request or open an issue to discuss any potential improvements or bug fixes.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
-
-Enjoy watching your favorite movies! 🎥🍿
+## Enjoy watching your favorite movies! 🎥🍿
