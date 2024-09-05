@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import MovieDetails from "../pages/MovieDetails";
 import SearchResults from "../pages/SearchResults";
@@ -7,7 +7,7 @@ import Navbar from "../components/Navbar";
 
 const AppRoutes = () => {
   return (
-    <Router basename="/movie-time-for-you">
+    <Router basename="/">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
