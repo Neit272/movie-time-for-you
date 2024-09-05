@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# Movie Time for You 🎬
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Movie Time for You** is a React-based web application that allows users to explore, search, and watch movies from various genres and categories. This app pulls data from an API to display the latest movies, shows, and animations from different regions and genres.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Browse Movies**: Users can browse movies and shows by category, genre, or country.
+- **Search Functionality**: Powerful search allows users to find movies quickly.
+- **Detailed Movie Info**: Get detailed information about each movie such as title, description, genre, country, and year of release.
+- **Embedded Video Player**: Movies are embedded with an HLS player that supports `.m3u8` streams for a smooth viewing experience.
+- **Pagination Support**: Browse through a large collection of movies with paginated results for easy navigation.
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**: React, Ant Design
+- **Video Player**: HLS.js for streaming `.m3u8` video files
+- **Routing**: React Router DOM
+- **Data Fetching**: Axios for API requests
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## API Integration
 
-### `npm test`
+This app fetches data from an external movie API to display movie details, categories, and search results.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to Run Locally
 
-### `npm run build`
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/neit272/movie-time-for-you.git
+## How to Run Locally
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/neit272/movie-time-for-you.git
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Navigate into the project directory:
+    ```bash
+    cd movie-time-for-you
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
 
-### `npm run eject`
+4. Start the development server:
+    ```bash
+    npm start
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. Open your browser and go to [http://localhost:3000](http://localhost:3000) to see the app in action.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This project is deployed using GitHub Pages. To deploy the app, the following npm scripts are available:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- To build the app:
+  ```bash
+  npm run build
+  ```
 
-## Learn More
+- To deploy to GitHub Pages:
+  ```bash
+  npm run deploy
+  ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+You can view the live app [here](https://neit272.github.io/movie-time-for-you).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Future Enhancements
 
-### Code Splitting
+- Ad Detection and Skipping: Implementing automatic ad detection and skipping in the video player.
+or
+- Changing to use the ads-free source (?)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Contributing
 
-### Analyzing the Bundle Size
+Contributions are welcome! Feel free to submit a pull request or open an issue to discuss any potential improvements or bug fixes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Enjoy watching your favorite movies! 🎥🍿
