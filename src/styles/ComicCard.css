@@ -1,0 +1,102 @@
+.comic-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 200px;
+    height: 430px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+}
+
+.comic-card:hover {
+    transform: scale(1.05);
+}
+
+.comic-thumb {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.comic-info {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.comic-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 50px;
+}
+
+.comic-categories {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scrollbar-width: thin;
+    height: 30px;
+}
+
+.comic-categories::-webkit-scrollbar {
+    height: 5px;
+}
+
+.comic-categories::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+.comic-categories::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.comic-categories span {
+    white-space: nowrap;
+    color: #666;
+    font-size: 14px;
+    background-color: #f0f0f0;
+    padding: 2px 5px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.comic-card-button {
+    margin-top: 5px;
+    width: 80%;
+    margin-bottom: 5px;
+    background-color: #924dbf !important;
+    border: none !important;
+    color: white !important;
+    padding: 10px 0;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+}
+
+.comic-card-button:hover,
+.comic-card-button:focus,
+.comic-card-button:active {
+    background-color: #7338a0 !important;
+    border: none !important;
+    color: white !important;
+}
+
+.comic-card-link {
+    text-decoration: none;
+    color: inherit;
+}

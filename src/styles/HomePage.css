@@ -29,3 +29,10 @@
     background-color: rgba(158, 114, 195, 0.5);
     padding: 16px;
 }
+
+.comic-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
