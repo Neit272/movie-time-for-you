@@ -112,3 +112,7 @@
 .ant-menu-submenu-popup {
     border-radius: 8px !important;
 }
+
+.custom-switch.ant-switch-checked {
+    background-color: #7338a0;
+}

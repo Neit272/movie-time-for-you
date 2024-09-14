@@ -141,6 +141,7 @@ const Navbar = () => {
               key: "toggle",
               label: (
                 <Switch
+                className="custom-switch"
                   checked={mode === "comic"}
                   checkedChildren="Comic"
                   unCheckedChildren="Movie"
