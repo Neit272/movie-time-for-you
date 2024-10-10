@@ -39,10 +39,10 @@ const HlsPlayer = ({ src, controls = true, autoPlay = false, style }) => {
     const handleTimeUpdate = () => {
       const currentTime = videoRef.current.currentTime;
 
-      if (currentTime >= adStartTime && currentTime <= adEndTime) {
-        videoRef.current.currentTime = skipToTime;
-        console.log("Ad skipped: Jumped to 931 seconds");
-      }
+      // if (currentTime >= adStartTime && currentTime <= adEndTime) {
+      //   videoRef.current.currentTime = skipToTime;
+      //   console.log("Ad skipped: Jumped to 931 seconds");
+      // }
     };
 
     const video = videoRef.current;
