@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Menu, Input, Switch } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Menu, Input, Switch, Drawer, Button } from "antd";
+import { SearchOutlined, MenuOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -14,6 +14,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const searchInputRef = useRef(null);
+  const [drawerVisible, setDrawerVisible] = useState(false);
 
   useEffect(() => {
     Cookies.set("mode", mode);
@@ -67,6 +68,7 @@ const Navbar = () => {
     }
 
     setSearchValue("");
+    setDrawerVisible(false);
   };
 
   const handleSearch = () => {
@@ -90,7 +92,7 @@ const Navbar = () => {
     Cookies.set("mode", newMode);
   };
 
-  const menuItems =
+  const menuItems = (
     mode === "movie"
       ? [
           { key: "home", label: "Movie Time" },
@@ -126,22 +128,38 @@ const Navbar = () => {
               label: category.name,
             })),
           },
-        ];
+        ]
+  ).map(item => {
+    if (item.children) {
+      return {
+        ...item,
+        children: item.children.map(child => ({ ...child, parent: item.key }))
+      };
+    }
+    return item;
+  });
 
   return (
     <div className="navbar-container">
       <div className="navbar-left">
+        <Button
+          className="menu-button"
+          type="text"
+          icon={<MenuOutlined />}
+          onClick={() => setDrawerVisible(true)}
+        />
         <Menu
           onClick={handleMenuClick}
           selectedKeys={[current]}
           mode="horizontal"
           disabledOverflow={true}
+          className="navbar-menu-horizontal"
           items={[
             {
               key: "toggle",
               label: (
                 <Switch
-                className="custom-switch"
+                  className="custom-switch"
                   checked={mode === "comic"}
                   checkedChildren="Comic"
                   unCheckedChildren="Movie"
@@ -159,6 +177,7 @@ const Navbar = () => {
           selectedKeys={[current]}
           mode="horizontal"
           disabledOverflow={true}
+          className="navbar-menu-horizontal"
           items={menuItems.slice(1)}
         />
         <Input
@@ -171,6 +190,20 @@ const Navbar = () => {
           style={{ width: 200, marginLeft: "10px" }}
         />
       </div>
+      <Drawer
+        title="Menu"
+        placement="left"
+        onClose={() => setDrawerVisible(false)}
+        visible={drawerVisible}
+        className="navbar-drawer"
+      >
+        <Menu
+          onClick={handleMenuClick}
+          selectedKeys={[current]}
+          mode="inline"
+          items={menuItems}
+        />
+      </Drawer>
     </div>
   );
 };

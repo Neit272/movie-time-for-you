@@ -116,3 +116,41 @@
 .custom-switch.ant-switch-checked {
     background-color: #7338a0;
 }
+
+.custom-switch .ant-switch-handle {
+    background-color: #ffffff;
+}
+
+.custom-switch.ant-switch-checked .ant-switch-handle {
+    background-color: #ffffff;
+}
+
+.custom-switch .ant-switch-inner {
+    color: #ffffff;
+}
+
+.custom-switch.ant-switch-checked .ant-switch-inner {
+    color: #ffffff;
+}
+
+.custom-switch {
+    background-color: #1890ff;
+}
+
+.menu-button {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .navbar-menu-horizontal {
+        display: none !important;
+    }
+
+    .menu-button {
+        display: block !important;
+    }
+
+    .navbar-right {
+        display: none !important;
+    }
+}

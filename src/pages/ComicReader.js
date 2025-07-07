@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Spin, Image, Select } from "antd";
 import axios from "axios";
+import "../styles/ComicReader.css";
 
 const ComicReader = () => {
   const { slug, chapterNumber } = useParams();
@@ -93,32 +94,18 @@ const ComicReader = () => {
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-        }}
-      >
+      <div className="loading-container">
         <Spin size="large" />
       </div>
     );
   }
 
   return (
-    <div style={{ padding: "20px", maxWidth: "900px", margin: "0 auto" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
+    <div className="comic-reader">
+      <div className="chapter-navigation">
         <Button
           type="primary"
-          style={{ backgroundColor: "#7338a0", borderColor: "#7338a0", width: "200px" }}
+          className="chapter-button"
           onClick={() => changeChapter(getPreviousChapter())}
           disabled={!getPreviousChapter()}
         >
@@ -128,24 +115,13 @@ const ComicReader = () => {
         <Select
           value={currentChapter}
           onChange={(value) => changeChapter(value)}
-          style={{
-            width: 200,
-            borderRadius: "5px",
-            borderColor: "#7338a0",
-          }}
-          dropdownStyle={{
-            backgroundColor: "#fff",
-            borderRadius: "5px",
-          }}
+          className="chapter-select"
         >
           {chapterList.map((chapter) => (
             <Option
               key={chapter.chapter_name}
               value={chapter.chapter_name}
-              style={{
-                color: "#7338a0",
-                padding: "10px",
-              }}
+              className="chapter-option"
             >
               Chương {chapter.chapter_name}
             </Option>
@@ -154,7 +130,7 @@ const ComicReader = () => {
 
         <Button
           type="primary"
-          style={{ backgroundColor: "#7338a0", borderColor: "#7338a0", width: "200px" }}
+          className="chapter-button"
           onClick={() => changeChapter(getNextChapter())}
           disabled={!getNextChapter()}
         >
@@ -162,22 +138,35 @@ const ComicReader = () => {
         </Button>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div className="chapter-images">
         {chapterImages.map((image, index) => (
           <Image
             key={index}
             src={image}
             preview={false}
             alt={`Page ${index + 1}`}
-            style={{ margin: "0", width: "100%", maxWidth: "500px" }}
+            className="comic-image"
           />
         ))}
+      </div>
+
+      <div className="chapter-navigation" style={{ marginTop: "20px" }}>
+        <Button
+          type="primary"
+          className="chapter-button"
+          onClick={() => changeChapter(getPreviousChapter())}
+          disabled={!getPreviousChapter()}
+        >
+          Chương trước
+        </Button>
+        <Button
+          type="primary"
+          className="chapter-button"
+          onClick={() => changeChapter(getNextChapter())}
+          disabled={!getNextChapter()}
+        >
+          Chương sau
+        </Button>
       </div>
     </div>
   );

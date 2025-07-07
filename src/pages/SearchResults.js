@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie"; // Import js-cookie
-import { Row, Col, Typography, Spin, Pagination } from "antd";
+import Cookies from "js-cookie";
+import { Typography, Spin, Pagination } from "antd";
 import MovieCard from "../components/MovieCard";
-import ComicCard from "../components/ComicCard"; // You need to create this component similar to MovieCard
+import ComicCard from "../components/ComicCard";
+import "../styles/SearchResults.css";
 
 const { Title } = Typography;
 
@@ -40,14 +41,16 @@ const SearchResults = ({ title, apiUrl }) => {
 
     if (isComicMode && apiUrl) {
       url = `${apiUrl}?page=${page}`;
-    } else url = apiUrl ? `${apiUrl}&page=${page}` : null;
+    } else if (apiUrl) {
+      url = `${apiUrl}&page=${page}`;
+    }
 
     if (!apiUrl) {
       if (keyword) {
         if (mode === "comic") {
           url = `https://otruyenapi.com/v1/api/tim-kiem?keyword=${keyword}`;
         } else {
-          url = `https://phimapi.com/v1/api/tim-kiem?keyword=${keyword}&limit=600&page=${page}`;
+          url = `https://phimapi.com/v1/api/tim-kiem?keyword=${keyword}&limit=60&page=${page}`;
         }
         currentTitle = `Kết quả tìm kiếm cho: "${keyword}"`;
         setPageTitle(currentTitle);
@@ -149,7 +152,7 @@ const SearchResults = ({ title, apiUrl }) => {
   }
 
   return (
-    <div style={{ padding: "0 24px" }}>
+    <div className="search-results-container">
       <Title
         level={movies.length === 0 && comics.length === 0 ? 1 : 2}
         style={{
@@ -163,31 +166,18 @@ const SearchResults = ({ title, apiUrl }) => {
           : pageTitle}
       </Title>
 
-      {movies.length > 0 && (
-        <Row gutter={[16, 16]}>
-          {movies.map((movie) => (
-            <Col key={movie._id} xs={24} sm={12} md={8} lg={6} xl={4}>
-              <MovieCard movie={movie} />
-            </Col>
-          ))}
-        </Row>
-      )}
-
-      {comics.length > 0 && (
-        <Row gutter={[16, 16]}>
-          {comics.map((comic) => (
-            <Col key={comic._id} xs={24} sm={12} md={8} lg={6} xl={4}>
-              <ComicCard comic={comic} />
-            </Col>
-          ))}
-        </Row>
-      )}
+      <div className="search-results-grid">
+        {movies.length > 0 &&
+          movies.map((movie) => <MovieCard key={movie._id} movie={movie} />)}
+        {comics.length > 0 &&
+          comics.map((comic) => <ComicCard key={comic._id} comic={comic} />)}
+      </div>
 
       {totalPages > 1 && (
         <Pagination
           current={currentPage}
           total={totalItems}
-          pageSize={mode === "movie" ? 60 : 24} // Adjust page size for comics and movies
+          pageSize={mode === "movie" ? 60 : 24}
           onChange={handlePageChange}
           align="center"
           showSizeChanger={false}

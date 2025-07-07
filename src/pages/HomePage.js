@@ -8,12 +8,25 @@ import "../styles/HomePage.css";
 
 const { Title } = Typography;
 
+const useWindowSize = () => {
+  const [size, setSize] = useState([window.innerWidth]);
+  useEffect(() => {
+    const handleResize = () => {
+      setSize([window.innerWidth]);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return size;
+};
+
 const HomePage = () => {
   const [newMovies, setNewMovies] = useState([]);
   const [animatedMovies, setAnimatedMovies] = useState([]);
   const [koreanMovies, setKoreanMovies] = useState([]);
   const [comics, setComics] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [width] = useWindowSize();
 
   const mode = Cookies.get("mode") || "movie";
 
@@ -51,6 +64,22 @@ const HomePage = () => {
 
     fetchData();
   }, [mode]);
+
+  const getSlidesToShow = () => {
+    if (width > 1200) {
+      return 5;
+    }
+    if (width > 992) {
+      return 4;
+    }
+    if (width > 768) {
+      return 3;
+    }
+    if (width > 576) {
+      return 2;
+    }
+    return 1;
+  };
 
   const renderMovieCards = (movies) => {
     return movies.map((movie) => (
@@ -101,8 +130,8 @@ const HomePage = () => {
           </div>
           <Carousel
             dots={false}
-            slidesToShow={5}
-            slidesToScroll={5}
+            slidesToShow={getSlidesToShow()}
+            slidesToScroll={getSlidesToShow()}
             infinite={true}
             draggable={true}
             arrows={false}
@@ -124,8 +153,8 @@ const HomePage = () => {
           </div>
           <Carousel
             dots={false}
-            slidesToShow={5}
-            slidesToScroll={5}
+            slidesToShow={getSlidesToShow()}
+            slidesToScroll={getSlidesToShow()}
             infinite={true}
             draggable={true}
             arrows={false}
@@ -147,8 +176,8 @@ const HomePage = () => {
           </div>
           <Carousel
             dots={false}
-            slidesToShow={5}
-            slidesToScroll={5}
+            slidesToShow={getSlidesToShow()}
+            slidesToScroll={getSlidesToShow()}
             infinite={true}
             draggable={true}
             arrows={false}

@@ -1,0 +1,41 @@
+
+.comic-reader {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.chapter-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chapter-button {
+  background-color: #7338a0;
+  border-color: #7338a0;
+  width: 200px;
+}
+
+.chapter-select {
+  width: 200px;
+  border-radius: 5px;
+  border-color: #7338a0;
+}
+
+.chapter-select .ant-select-selector {
+  border-color: #7338a0 !important;
+}
+
+.chapter-images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comic-image {
+  margin: 0;
+  width: 100%;
+  max-width: 800px;
+}

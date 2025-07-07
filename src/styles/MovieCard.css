@@ -11,3 +11,38 @@
 .movie-card:hover {
     transform: translateY(-5px);
 }
+
+.movie-card .ant-card-cover img {
+    height: 270px;
+    object-fit: cover;
+}
+
+.movie-card .ant-card-body {
+    padding: 15px;
+    background-color: #1c1c1c;
+    color: white;
+    height: 90px;
+}
+
+.movie-card .ant-card-meta-title {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-card .ant-card-meta-description {
+    color: #ccc;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 576px) {
+    .movie-card {
+        width: 100%;
+    }
+}

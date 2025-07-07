@@ -100,3 +100,9 @@
     text-decoration: none;
     color: inherit;
 }
+
+@media (max-width: 576px) {
+    .comic-card {
+        width: 100%;
+    }
+}
