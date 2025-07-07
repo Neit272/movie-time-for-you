@@ -45,19 +45,6 @@ This app fetches data from an external movie API to display movie details, categ
 
 5. Open your browser and go to [http://localhost:3000](http://localhost:3000) to see the app in action.
 
-## Deployment
-
-This project is deployed using GitHub Pages. To deploy the app, the following npm scripts are available:
-
-- To build the app:
-  ```bash
-  npm run build
-  ```
-
-- To deploy to GitHub Pages:
-  ```bash
-  npm run deploy
-  ```
 
 You can view the live app [here](https://neit272.github.io/movie-time-for-you).
 
