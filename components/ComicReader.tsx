@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Icons } from './Icon';
 import { Chapter, ReaderMode, ContentType } from '../types';
 import { getChapterPages } from '../services/api';
-import { addToHistory } from '../services/localStorage';
 
 interface ComicReaderProps {
   chapter: Chapter;
@@ -25,24 +24,6 @@ export const ComicReader: React.FC<ComicReaderProps> = ({
   
   const [pages, setPages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-      addToHistory({
-          id: contentId,
-          title: contentTitle,
-          type: ContentType.COMIC,
-          coverImage: contentImage,
-          backdropImage: contentImage,
-          description: '',
-          rating: 0,
-          year: new Date().getFullYear(),
-          tags: []
-      }, {
-          chapterName: chapter.title || `Chapter ${chapter.number}`,
-          chapterId: chapter.id,
-          episodeNumber: chapter.number
-      });
-  }, [contentId, chapter.id]);
 
   useEffect(() => {
     const loadPages = async () => {

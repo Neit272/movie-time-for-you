@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Icons } from './Icon';
-import { addToHistory } from '../services/localStorage';
 import { ContentType } from '../types';
 
 interface VideoPlayerProps {
@@ -29,25 +28,6 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     }
     return () => clearTimeout(timeout);
   }, [showControls]);
-
-  useEffect(() => {
-      if (contentId && contentTitle) {
-          addToHistory({
-              id: contentId,
-              title: contentTitle,
-              type: ContentType.MOVIE,
-              coverImage: contentImage || '',
-              backdropImage: poster || '',
-              description: '',
-              rating: 0,
-              year: new Date().getFullYear(),
-              tags: []
-          }, {
-              episodeName: title,
-              episodeNumber: episodeNumber
-          });
-      }
-  }, [contentId, episodeNumber]);
 
   if (embedUrl) {
       return (
