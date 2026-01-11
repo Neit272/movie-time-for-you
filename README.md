@@ -1,61 +1,176 @@
-# Movie Time for You 🎬
 
-**Movie Time for You** is a React-based web application that allows users to explore, search, and watch movies from various genres and categories. This app pulls data from an API to display the latest movies, shows, and animations from different regions and genres.
+# OmniStream
 
-## Features
+  
 
-- **Browse Movies**: Users can browse movies and shows by category, genre, or country.
-- **Search Functionality**: Powerful search allows users to find movies quickly.
-- **Detailed Movie Info**: Get detailed information about each movie such as title, description, genre, country, and year of release.
-- **Embedded Video Player**: Movies are embedded with an HLS player that supports `.m3u8` streams for a smooth viewing experience.
-- **Pagination Support**: Browse through a large collection of movies with paginated results for easy navigation.
+OmniStream là một ứng dụng web giải trí tất cả trong một (All-in-One), được xây dựng để mang lại trải nghiệm xem phim và đọc truyện tranh mượt mà. Dự án kết hợp sức mạnh của React và Vite để tạo ra một không gian giải trí tối ưu.
 
-## Tech Stack
+  
 
-- **Frontend**: React, Ant Design
-- **Video Player**: HLS.js for streaming `.m3u8` video files
-- **Routing**: React Router DOM
-- **Data Fetching**: Axios for API requests
+## Tính Năng Nổi Bật
 
-## API Integration
+  
 
-This app fetches data from an external movie API to display movie details, categories, and search results.
+### Kho Phim
 
-## How to Run Locally
+- **Streaming mượt mà:** Hỗ trợ xem phim chất lượng cao từ nguồn server ổn định.
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/neit272/movie-time-for-you.git
-    ```
+- **Đa dạng thể loại:** Phim lẻ, Phim bộ, TV Shows và Hoạt hình.
 
-2. Navigate into the project directory:
-    ```bash
-    cd movie-time-for-you
-    ```
+- **Bộ lọc thông minh:** Tìm kiếm theo Quốc gia, Năm phát hành, và Thể loại.
 
-3. Install dependencies:
-    ```bash
-    npm install
-    ```
+  
 
-4. Start the development server:
-    ```bash
-    npm start
-    ```
+### Truyện Tranh
 
-5. Open your browser and go to [http://localhost:3000](http://localhost:3000) to see the app in action.
+- **Trình đọc tích hợp:** Hỗ trợ 2 chế độ đọc chuyên biệt:
 
+- **Vertical Mode:** Cuộn dọc (phù hợp Webtoon).
 
-You can view the live app [here](https://neit272.github.io/movie-time-for-you).
+- **Paginated Mode:** Lật trang truyền thống.
 
-## Future Enhancements
+- **Cập nhật nội dung:** Hàng ngàn đầu truyện Manhwa, Manga, Manhua mới nhất từ nguồn API.
 
-- Ad Detection and Skipping: Implementing automatic ad detection and skipping in the video player.
-or
-- Changing to use the ads-free source (?)
+  
 
-## Contributing
+### Giao Diện Người Dùng
 
-Contributions are welcome! Feel free to submit a pull request or open an issue to discuss any potential improvements or bug fixes.
+- **Dark Mode:** Giao diện tối màu giúp bảo vệ mắt và tăng trải nghiệm điện ảnh.
 
-## Enjoy watching your favorite movies! 🎥🍿
+- **Responsive Design:** Tương thích tốt trên Desktop, Tablet và Mobile.
+
+- **Đánh dấu Yêu thích:** Quản lý danh sách yêu thích thông qua LocalStorage.
+
+  
+
+---
+
+  
+
+## Công Nghệ Sử Dụng
+
+  
+
+- **Core:** React 19, TypeScript, Vite
+
+- **Styling:** Tailwind CSS
+
+- **Icons:** Lucide React
+
+- **Routing:** React Router DOM
+
+- **Data Sources:**
+
+- Phim: API từ `phimapi.com`
+
+- Truyện: API từ `otruyenapi.com`
+
+  
+
+---
+
+  
+
+## Cài Đặt và Chạy Local
+
+  
+
+### 1. Clone dự án
+
+  
+
+```bash
+
+git clone https://github.com/Neit272/movie-time-for-you.git
+
+cd movie-time-for-you
+
+```
+
+  
+
+### 2. Cài đặt dependencies
+
+  
+
+```bash
+
+npm install
+
+```
+
+  
+
+### 3. Chạy dự án
+
+  
+
+```bash
+
+npm run dev
+
+```
+
+  
+
+Truy cập `http://localhost:3000` để sử dụng ứng dụng.
+
+  
+
+---
+
+  
+
+## Cấu Trúc Dự Án
+
+  
+
+```
+
+movie-time-for-you/
+
+├── components/ # Các thành phần UI tái sử dụng (Card, Player, Sidebar...)
+
+├── pages/ # Các trang chính (Home, Details, Watch, Search...)
+
+├── services/ # Xử lý API và LocalStorage
+
+├── types/ # Định nghĩa TypeScript interfaces
+
+├── index.html # Entry point
+
+├── index.tsx # React mounting
+
+└── App.tsx # Main routing logic
+
+```
+
+  
+
+---
+
+  
+
+## Đóng Góp
+
+  
+
+Mọi đóng góp đều được hoan nghênh. Nếu bạn tìm thấy lỗi hoặc có ý tưởng mới, hãy mở **Issue** hoặc gửi **Pull Request**.
+
+  
+
+1. Fork dự án
+
+2. Tạo branch tính năng (`git checkout -b feature/NewFeature`)
+
+3. Commit thay đổi (`git commit -m 'Add some NewFeature'`)
+
+4. Push lên branch (`git push origin feature/NewFeature`)
+
+5. Mở Pull Request
+
+---
+
+  
+
+***__When there is no more us...__***
