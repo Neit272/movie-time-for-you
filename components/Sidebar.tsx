@@ -45,7 +45,7 @@ export const Sidebar = () => {
     <aside className="hidden md:flex flex-col w-64 h-screen bg-[#0f0e17] border-r border-white/5 fixed left-0 top-0 z-50 p-6 overflow-y-auto">
       <Link 
         to="/" 
-        className={`flex items-center gap-3 mb-8 px-2 py-3 rounded-xl transition-all duration-200 group ${
+        className={`flex items-center justify-center gap-3 mb-8 px-2 py-3 rounded-xl transition-all duration-200 group ${
             isHome ? 'bg-purple-600/10' : ''
         }`}
       >
