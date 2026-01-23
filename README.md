@@ -1,15 +1,8 @@
+# Movie Time
 
-# OmniStream
-
-  
-
-OmniStream là một ứng dụng web giải trí tất cả trong một (All-in-One), được xây dựng để mang lại trải nghiệm xem phim và đọc truyện tranh mượt mà. Dự án kết hợp sức mạnh của React và Vite để tạo ra một không gian giải trí tối ưu.
-
-  
+Movie Time là một ứng dụng web giải trí tất cả trong một (All-in-One), được xây dựng để mang lại trải nghiệm xem phim và đọc truyện tranh mượt mà. Dự án kết hợp sức mạnh của React và Vite để tạo ra một không gian giải trí tối ưu.
 
 ## Tính Năng Nổi Bật
-
-  
 
 ### Kho Phim
 
@@ -18,8 +11,6 @@ OmniStream là một ứng dụng web giải trí tất cả trong một (All-in
 - **Đa dạng thể loại:** Phim lẻ, Phim bộ, TV Shows và Hoạt hình.
 
 - **Bộ lọc thông minh:** Tìm kiếm theo Quốc gia, Năm phát hành, và Thể loại.
-
-  
 
 ### Truyện Tranh
 
@@ -31,8 +22,6 @@ OmniStream là một ứng dụng web giải trí tất cả trong một (All-in
 
 - **Cập nhật nội dung:** Hàng ngàn đầu truyện Manhwa, Manga, Manhua mới nhất từ nguồn API.
 
-  
-
 ### Giao Diện Người Dùng
 
 - **Dark Mode:** Giao diện tối màu giúp bảo vệ mắt và tăng trải nghiệm điện ảnh.
@@ -41,15 +30,9 @@ OmniStream là một ứng dụng web giải trí tất cả trong một (All-in
 
 - **Đánh dấu Yêu thích:** Quản lý danh sách yêu thích thông qua LocalStorage.
 
-  
-
 ---
 
-  
-
 ## Công Nghệ Sử Dụng
-
-  
 
 - **Core:** React 19, TypeScript, Vite
 
@@ -65,19 +48,11 @@ OmniStream là một ứng dụng web giải trí tất cả trong một (All-in
 
 - Truyện: API từ `otruyenapi.com`
 
-  
-
 ---
-
-  
 
 ## Cài Đặt và Chạy Local
 
-  
-
 ### 1. Clone dự án
-
-  
 
 ```bash
 
@@ -87,11 +62,7 @@ cd movie-time-for-you
 
 ```
 
-  
-
 ### 2. Cài đặt dependencies
-
-  
 
 ```bash
 
@@ -99,11 +70,7 @@ npm install
 
 ```
 
-  
-
 ### 3. Chạy dự án
-
-  
 
 ```bash
 
@@ -111,19 +78,11 @@ npm run dev
 
 ```
 
-  
-
 Truy cập `http://localhost:3000` để sử dụng ứng dụng.
-
-  
 
 ---
 
-  
-
 ## Cấu Trúc Dự Án
-
-  
 
 ```
 
@@ -145,19 +104,11 @@ movie-time-for-you/
 
 ```
 
-  
-
 ---
-
-  
 
 ## Đóng Góp
 
-  
-
 Mọi đóng góp đều được hoan nghênh. Nếu bạn tìm thấy lỗi hoặc có ý tưởng mới, hãy mở **Issue** hoặc gửi **Pull Request**.
-
-  
 
 1. Fork dự án
 
@@ -171,6 +122,4 @@ Mọi đóng góp đều được hoan nghênh. Nếu bạn tìm thấy lỗi ho
 
 ---
 
-  
-
-***__When there is no more us...__***
+**_**When there is no more us...**_**

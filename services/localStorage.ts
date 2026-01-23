@@ -1,8 +1,8 @@
 import { ContentItem } from '../types';
 
 const KEYS = {
-    FAVORITES: 'omnistream_favorites',
-    HISTORY: 'omnistream_history'
+    FAVORITES: 'Movie Time_favorites',
+    HISTORY: 'Movie Time_history'
 };
 
 export const getFavorites = (): ContentItem[] => {
