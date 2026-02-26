@@ -9,6 +9,7 @@ export const Details = () => {
   const { id } = useParams<{ id: string }>();
   const [content, setContent] = useState<ContentDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedServerIndex, setSelectedServerIndex] = useState(0);
   
   const [isFav, setIsFav] = useState(false);
 
@@ -35,9 +36,10 @@ export const Details = () => {
   if (loading) return <div className="flex h-screen items-center justify-center text-slate-500">Đang tải chi tiết...</div>;
   if (!content) return <div className="flex h-screen items-center justify-center text-red-500">Không tìm thấy nội dung.</div>;
 
-  const isSingleEpisodeMovie = content.type === ContentType.MOVIE && content.episodes && content.episodes.length <= 1;
+  const currentEpisodes = content.episodes?.[selectedServerIndex]?.server_data || [];
+  const isSingleEpisodeMovie = content.type === ContentType.MOVIE && currentEpisodes.length <= 1;
 
-  const shouldShowListHeader = (content.episodes && content.episodes.length > 0 && !isSingleEpisodeMovie) || (content.chapters && content.chapters.length > 0);
+  const shouldShowListHeader = (!isSingleEpisodeMovie && currentEpisodes.length > 0) || (content.chapters && content.chapters.length > 0);
 
   const getStatusDisplay = (status: string) => {
       const s = status.toLowerCase();
@@ -108,7 +110,7 @@ export const Details = () => {
 
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-8 justify-center md:justify-start px-4 sm:px-0">
                     <Link 
-                        to={`/watch/${content.id}`} 
+                        to={`/watch/${content.id}?server=${selectedServerIndex}`} 
                         className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-semibold flex items-center justify-center gap-2 transition-all shadow-lg shadow-purple-900/30 w-full sm:w-auto"
                     >
                         {content.type === ContentType.COMIC || content.type === ContentType.MANGA ? 
@@ -160,17 +162,41 @@ export const Details = () => {
         </div>
 
         <div className="mt-8 md:mt-16 pb-8">
+            {content.episodes && content.episodes.length > 1 && (
+                <div className="mb-6 px-2 md:px-0">
+                    <div className="flex items-center gap-2 mb-3">
+                        <Icons.Server size={18} className="text-purple-400"/>
+                        <span className="text-sm font-medium text-slate-300">Chọn Server Nguồn Phát</span>
+                    </div>
+                    <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
+                        {content.episodes.map((server, idx) => (
+                            <button 
+                                key={idx}
+                                onClick={() => setSelectedServerIndex(idx)}
+                                className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap transition-colors border ${
+                                    selectedServerIndex === idx 
+                                    ? 'bg-purple-600 text-white border-purple-500 shadow-lg shadow-purple-900/20' 
+                                    : 'bg-[#1a1825] text-slate-400 border-white/10 hover:bg-[#252236] hover:text-slate-200'
+                                }`}
+                            >
+                                {server.server_name}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             {shouldShowListHeader && (
                 <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6 px-2 md:px-0">
                     {content.type === ContentType.COMIC || content.type === ContentType.MANGA ? 'Danh Sách Chương' : 'Danh Sách Tập'}
                 </h2>
             )}
             
-            {!isSingleEpisodeMovie && content.episodes && content.episodes.length > 0 && (
+            {!isSingleEpisodeMovie && currentEpisodes.length > 0 && (
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 px-2 md:px-0">
-                    {content.episodes.map(ep => (
+                    {currentEpisodes.map(ep => (
                         <Link 
-                            to={`/watch/${content.id}?ep=${ep.number}`} 
+                            to={`/watch/${content.id}?ep=${ep.number}&server=${selectedServerIndex}`} 
                             key={ep.id} 
                             className="flex items-center justify-center py-3 px-2 bg-[#1a1825] hover:bg-purple-600 rounded-lg border border-white/5 hover:border-purple-500/50 transition-all group text-center shadow-sm"
                         >

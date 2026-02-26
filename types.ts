@@ -36,9 +36,15 @@ export interface Episode {
   number: number;
   duration: string;
   thumbnail: string;
-  server_name?: string;
   link_embed?: string;
   link_m3u8?: string;
+  filename?: string;
+  slug?: string;
+}
+
+export interface EpisodeServer {
+  server_name: string;
+  server_data: Episode[];
 }
 
 export interface Chapter {
@@ -50,7 +56,7 @@ export interface Chapter {
 }
 
 export interface ContentDetails extends ContentItem {
-  episodes?: Episode[];
+  episodes?: EpisodeServer[];
   chapters?: Chapter[];
   cast?: string[];
   author?: string;

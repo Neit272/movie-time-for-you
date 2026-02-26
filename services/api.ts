@@ -107,22 +107,25 @@ const normalizeDetails = (apiResponse: any): ContentDetails => {
     const rawPoster = movie.poster_url;
     const rawThumb = movie.thumb_url;
 
-    const firstServer = apiResponse.episodes?.[0];
-    const serverData = firstServer?.server_data || [];
-
-    const episodes: Episode[] = serverData.map((ep: any) => {
-        const epNum = parseFloat(ep.name.replace(/[^0-9.]/g, '')) || 0;
-        return {
-            id: ep.slug,
-            title: ep.name,
-            number: epNum === 0 ? 1 : epNum,
-            duration: movie.time || 'N/A',
-            thumbnail: optimizeImageUrl(rawPoster), 
-            server_name: firstServer?.server_name,
-            link_embed: ep.link_embed,
-            link_m3u8: ep.link_m3u8
-        };
-    });
+    const rawEpisodes = apiResponse.episodes || [];
+    
+    const episodes: EpisodeServer[] = rawEpisodes.map((server: any) => ({
+        server_name: server.server_name,
+        server_data: (server.server_data || []).map((ep: any) => {
+             const epNum = parseFloat(ep.name.replace(/[^0-9.]/g, '')) || 0;
+             return {
+                id: ep.slug,
+                title: ep.name,
+                number: epNum === 0 ? 1 : epNum,
+                duration: movie.time || 'N/A',
+                thumbnail: optimizeImageUrl(rawPoster),
+                link_embed: ep.link_embed,
+                link_m3u8: ep.link_m3u8,
+                filename: ep.filename,
+                slug: ep.slug
+             };
+        })
+    }));
 
     return {
         id: movie.slug,

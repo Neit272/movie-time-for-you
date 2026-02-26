@@ -68,7 +68,7 @@ export const ComicReader: React.FC<ComicReaderProps> = ({
 
   return (
     <div className="relative min-h-screen bg-[#0b0a15]" onClick={handleZoneClick}>
-      <div className={`fixed top-0 left-0 right-0 bg-[#0b0a15]/90 backdrop-blur-md border-b border-white/10 p-4 z-50 flex items-center justify-between transition-transform duration-300 ${uiVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <div className={`fixed top-0 left-0 right-0 bg-[#0b0a15]/90 backdrop-blur-md border-b border-white/10 p-4 z-50 flex items-center justify-between ${uiVisible ? 'block' : 'hidden'}`}>
         <div className="flex items-center gap-4">
              <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="text-slate-300 hover:text-white">
                 <Icons.ChevronLeft size={24} />
@@ -132,7 +132,7 @@ export const ComicReader: React.FC<ComicReaderProps> = ({
          )}
       </div>
 
-      <div className={`fixed bottom-0 left-0 right-0 bg-[#0b0a15]/90 backdrop-blur-md border-t border-white/10 p-4 z-50 flex items-center justify-center gap-8 transition-transform duration-300 ${uiVisible ? 'translate-y-0' : 'translate-y-full'}`}>
+      <div className={`fixed bottom-0 left-0 right-0 bg-[#0b0a15]/90 backdrop-blur-md border-t border-white/10 p-4 z-50 flex items-center justify-center gap-8 ${uiVisible ? 'block' : 'hidden'}`}>
             <button 
                 disabled={!onPrevChapter} 
                 onClick={(e) => { e.stopPropagation(); onPrevChapter?.(); }}
