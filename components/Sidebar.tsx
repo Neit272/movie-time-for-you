@@ -53,7 +53,7 @@ export const Sidebar = () => {
             <Icons.Play size={16} className="fill-current" />
         </div>
         <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
-          OmniStream
+          Movie Time
         </h1>
       </Link>
 
