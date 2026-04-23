@@ -51,11 +51,19 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
     useEffect(() => {
         const handleResize = () => setIsOpen(false);
+        const handleScroll = (event: Event) => {
+            const target = event.target as Node;
+            if (dropdownRef.current && dropdownRef.current.contains(target)) {
+                return;
+            }
+            setIsOpen(false);
+        };
+
         window.addEventListener('resize', handleResize);
-        window.addEventListener('scroll', handleResize, true); 
+        window.addEventListener('scroll', handleScroll, true); 
         return () => {
             window.removeEventListener('resize', handleResize);
-            window.removeEventListener('scroll', handleResize, true);
+            window.removeEventListener('scroll', handleScroll, true);
         };
     }, []);
 
