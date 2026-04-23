@@ -4,26 +4,12 @@ import { ContentItem, Category, Country } from '../types';
 import { ContentCard } from '../components/ContentCard';
 import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
+import { YEARS, COMIC_STATUSES } from '../constants';
 
 interface CatalogProps {
     type: 'phim-le' | 'phim-bo' | 'hoat-hinh' | 'truyen-tranh' | 'phim-moi';
     title: string;
 }
-
-const YEARS = [
-    { label: '2025', value: '2025' },
-    { label: '2024', value: '2024' },
-    { label: '2023', value: '2023' },
-    { label: '2022', value: '2022' },
-    { label: 'Trước 2022', value: '2021' }, 
-];
-
-const COMIC_STATUSES = [
-    { label: 'Mới cập nhật', value: 'truyen-moi' },
-    { label: 'Đang phát hành', value: 'dang-phat-hanh' },
-    { label: 'Hoàn thành', value: 'hoan-thanh' },
-    { label: 'Sắp ra mắt', value: 'sap-ra-mat' },
-];
 
 export const Catalog: React.FC<CatalogProps> = ({ type, title }) => {
     const [items, setItems] = useState<ContentItem[]>([]);

@@ -5,13 +5,7 @@ import { ContentItem, Category } from '../types';
 import { ContentCard } from '../components/ContentCard';
 import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
-
-const YEARS = [
-    { label: '2025', value: '2025' },
-    { label: '2024', value: '2024' },
-    { label: '2023', value: '2023' },
-    { label: '2022', value: '2022' },
-];
+import { YEARS } from '../constants';
 
 export const CountryPage = () => {
     const { slug } = useParams<{ slug: string }>();
