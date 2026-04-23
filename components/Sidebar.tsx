@@ -53,7 +53,7 @@ export const Sidebar = () => {
             <Icons.Play size={16} className="fill-current" />
         </div>
         <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
-          Movie Time
+          OmniStream
         </h1>
       </Link>
 
@@ -79,6 +79,8 @@ export const Sidebar = () => {
                 <NavLink to="/movies" label="Phim Lẻ" icon={Icons.Film} active={location.pathname === '/movies'} />
                 <NavLink to="/series" label="Phim Bộ" icon={Icons.Menu} active={location.pathname === '/series'} />
                 <NavLink to="/cartoons" label="Hoạt Hình" icon={Icons.Sparkles} active={location.pathname === '/cartoons'} />
+                <div className="my-2 border-t border-white/5 mx-2"></div>
+                <NavLink to="/new-movies" label="Khám Phá Thêm" icon={Icons.Compass} active={location.pathname === '/new-movies'} />
                 <NavLink to="/search?scope=movie" label="Tìm Phim" icon={Icons.Search} active={location.search.includes('scope=movie')} />
             </div>
         </div>

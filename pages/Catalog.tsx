@@ -6,7 +6,7 @@ import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
 
 interface CatalogProps {
-    type: 'phim-le' | 'phim-bo' | 'hoat-hinh' | 'truyen-tranh';
+    type: 'phim-le' | 'phim-bo' | 'hoat-hinh' | 'truyen-tranh' | 'phim-moi';
     title: string;
 }
 

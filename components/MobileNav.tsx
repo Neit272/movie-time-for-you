@@ -130,6 +130,16 @@ export const MobileNav = () => {
                             onClick={() => setActiveMenu(null)} 
                             className="flex-col justify-center p-3 gap-2 text-[10px] bg-white/5 hover:bg-white/10 text-slate-300"
                         />
+
+                        <div className="col-span-3 border-t border-white/10 my-1"></div>
+                        
+                        <SubMenuLink 
+                            to="/new-movies" 
+                            label="Khám phá tất cả Phim" 
+                            icon={Icons.Compass} 
+                            onClick={() => setActiveMenu(null)} 
+                            className="col-span-3 justify-center gap-2 p-3 text-sm bg-purple-600/10 text-purple-300 hover:bg-purple-600/20 font-semibold"
+                        />
                     </div>
                 )}
 

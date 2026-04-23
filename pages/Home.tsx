@@ -92,11 +92,22 @@ const InfiniteHorizontalList = ({ title, initialItems, type, isHistory = false }
     return (
         <section className="mb-12 relative group/section">
              <div className="flex items-center justify-between mb-4 px-1">
-                <h2 className="text-xl md:text-2xl font-bold text-slate-100 flex items-center gap-3">
-                    <span className={`w-1.5 h-8 rounded-full ${isHistory ? 'bg-orange-500' : 'bg-purple-600'}`}></span>
-                    {title}
-                </h2>
-                {loadingMore && <span className="text-xs text-purple-400 animate-pulse">Đang tải thêm...</span>}
+                <div className="flex items-center gap-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-slate-100 flex items-center gap-3">
+                        <span className={`w-1.5 h-8 rounded-full ${isHistory ? 'bg-orange-500' : 'bg-purple-600'}`}></span>
+                        {title}
+                    </h2>
+                    {loadingMore && <span className="text-xs text-purple-400 animate-pulse hidden sm:inline">Đang tải thêm...</span>}
+                </div>
+                
+                {(type === 'movie' || type === 'comic') && (
+                    <Link 
+                        to={type === 'comic' ? '/comics' : '/new-movies'} 
+                        className="text-xs md:text-sm text-purple-400 hover:text-purple-300 flex items-center gap-1 font-medium bg-purple-500/10 px-3 py-1.5 rounded-full border border-purple-500/20 hover:bg-purple-500/20 transition-all"
+                    >
+                        Xem tất cả <Icons.ChevronRight size={14} />
+                    </Link>
+                )}
             </div>
 
             <button 
@@ -184,7 +195,7 @@ export const Home = () => {
                         <Icons.Play size={16} className="fill-current" />
                     </div>
                     <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
-                        Movie Time
+                        OmniStream
                     </h1>
                 </div>
             </div>
@@ -198,7 +209,7 @@ export const Home = () => {
             />
 
             <InfiniteHorizontalList 
-                title="Truyện Tranh Mới Cập Nhật" 
+                title="Truyện Mới Cập Nhật" 
                 initialItems={initialComics} 
                 type="comic"
             />

@@ -422,7 +422,7 @@ export const getContentByYear = async (
 };
 
 export const getDetailedList = async (
-    typeList: 'phim-le' | 'phim-bo' | 'hoat-hinh' | 'tv-shows' | 'truyen-tranh',
+    typeList: 'phim-le' | 'phim-bo' | 'hoat-hinh' | 'tv-shows' | 'truyen-tranh' | 'phim-moi',
     page: number = 1,
     filters: FilterParams = {}
 ): Promise<ContentItem[]> => {
@@ -438,6 +438,9 @@ export const getDetailedList = async (
     if (typeList === 'truyen-tranh') {
         const statusSlug = filters.status || 'truyen-moi';
         return getComicsList(page, statusSlug);
+    }
+    if (typeList === 'phim-moi') {
+        return getFeaturedContent(page);
     }
 
     try {

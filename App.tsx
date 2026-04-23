@@ -40,12 +40,13 @@ const App: React.FC = () => {
           <Route path="/movies" element={<Catalog type="phim-le" title="Phim Lẻ" />} />
           <Route path="/series" element={<Catalog type="phim-bo" title="Phim Bộ" />} />
           <Route path="/cartoons" element={<Catalog type="hoat-hinh" title="Phim Hoạt Hình" />} />
+          <Route path="/new-movies" element={<Catalog type="phim-moi" title="Phim" />} />
           
           <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/country/:slug" element={<CountryPage />} />
           <Route path="/year/:year" element={<YearPage />} />
           
-          <Route path="/comics" element={<Catalog type="truyen-tranh" title="Truyện Tranh" />} />
+          <Route path="/comics" element={<Catalog type="truyen-tranh" title="Truyện" />} />
           <Route path="/comic-category/:slug" element={<CategoryPage isComic={true} />} />
           
           <Route path="/details/:id" element={<Details />} />
