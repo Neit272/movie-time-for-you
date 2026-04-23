@@ -6,6 +6,7 @@ import { ContentCard } from '../components/ContentCard';
 import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
 import { YEARS } from '../constants';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 
 const COUNTRIES = [
     { label: 'Trung Quốc', value: 'trung-quoc' },
@@ -27,10 +28,10 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters, setShowFilters] = useSessionStorage(`category_${slug}_show_filters`, false);
     
-    const [country, setCountry] = useState('');
-    const [year, setYear] = useState('');
+    const [country, setCountry] = useSessionStorage(`category_${slug}_country`, '');
+    const [year, setYear] = useSessionStorage(`category_${slug}_year`, '');
 
     const observer = useRef<IntersectionObserver | null>(null);
 

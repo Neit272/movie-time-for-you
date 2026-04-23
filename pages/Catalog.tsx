@@ -5,6 +5,7 @@ import { ContentCard } from '../components/ContentCard';
 import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
 import { YEARS, COMIC_STATUSES } from '../constants';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 
 interface CatalogProps {
     type: 'phim-le' | 'phim-bo' | 'hoat-hinh' | 'truyen-tranh' | 'phim-moi';
@@ -17,15 +18,15 @@ export const Catalog: React.FC<CatalogProps> = ({ type, title }) => {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters, setShowFilters] = useSessionStorage(`catalog_${type}_show_filters`, false);
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
     
-    const [category, setCategory] = useState('');
-    const [country, setCountry] = useState('');
-    const [year, setYear] = useState('');
-    const [status, setStatus] = useState('truyen-moi');
+    const [category, setCategory] = useSessionStorage(`catalog_${type}_category`, '');
+    const [country, setCountry] = useSessionStorage(`catalog_${type}_country`, '');
+    const [year, setYear] = useSessionStorage(`catalog_${type}_year`, '');
+    const [status, setStatus] = useSessionStorage(`catalog_${type}_status`, 'truyen-moi');
 
     const observer = useRef<IntersectionObserver | null>(null);
 
@@ -45,12 +46,6 @@ export const Catalog: React.FC<CatalogProps> = ({ type, title }) => {
         };
         fetchData();
         
-        setCategory('');
-        setCountry('');
-        setYear('');
-        setStatus('truyen-moi');
-        setShowFilters(false);
-
     }, [type]);
 
     useEffect(() => {

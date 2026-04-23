@@ -6,33 +6,34 @@ import { Icons } from '../components/Icon';
 import { useSearchParams } from 'react-router-dom';
 import { CustomSelect } from '../components/CustomSelect';
 import { YEARS } from '../constants';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 
 export const Search = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const scopeParam = searchParams.get('scope');
 
-    const [keyword, setKeyword] = useState('');
-    const [debouncedKeyword, setDebouncedKeyword] = useState('');
+    const [keyword, setKeyword] = useSessionStorage('search_keyword', '');
+    const [debouncedKeyword, setDebouncedKeyword] = useSessionStorage('search_debounced_keyword', '');
     const [items, setItems] = useState<ContentItem[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters, setShowFilters] = useSessionStorage('search_show_filters', false);
     
-    const [scope, setScope] = useState<'all' | 'movie' | 'comic'>('all');
+    const [scope, setScope] = useSessionStorage<'all' | 'movie' | 'comic'>('search_scope', 'all');
     const [categories, setCategories] = useState<Category[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
-    const [category, setCategory] = useState('');
-    const [country, setCountry] = useState('');
-    const [year, setYear] = useState('');
+    const [category, setCategory] = useSessionStorage('search_category', '');
+    const [country, setCountry] = useSessionStorage('search_country', '');
+    const [year, setYear] = useSessionStorage('search_year', '');
 
     const observer = useRef<IntersectionObserver | null>(null);
 
     useEffect(() => {
         if (scopeParam === 'movie') setScope('movie');
         else if (scopeParam === 'comic') setScope('comic');
-        else setScope('all');
-    }, [scopeParam]);
+        else if (searchParams.has('scope') && scopeParam === 'all') setScope('all');
+    }, [scopeParam, searchParams]);
 
     const handleScopeChange = (newScope: 'all' | 'movie' | 'comic') => {
         setScope(newScope);

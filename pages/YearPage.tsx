@@ -5,6 +5,7 @@ import { ContentItem, Category, Country } from '../types';
 import { ContentCard } from '../components/ContentCard';
 import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 
 export const YearPage = () => {
     const { year } = useParams<{ year: string }>();
@@ -12,12 +13,12 @@ export const YearPage = () => {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const [showFilters, setShowFilters] = useState(false);
+    const [showFilters, setShowFilters] = useSessionStorage(`year_${year}_show_filters`, false);
     
     const [categories, setCategories] = useState<Category[]>([]);
     const [countries, setCountries] = useState<Country[]>([]);
-    const [category, setCategory] = useState('');
-    const [country, setCountry] = useState('');
+    const [category, setCategory] = useSessionStorage(`year_${year}_category`, '');
+    const [country, setCountry] = useSessionStorage(`year_${year}_country`, '');
 
     const observer = useRef<IntersectionObserver | null>(null);
 
