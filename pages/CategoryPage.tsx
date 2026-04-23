@@ -1,21 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { getContentByCategory, getCategories } from '../services/api';
-import { ContentItem } from '../types';
+import { getContentByCategory, getCategories, getCountries } from '../services/api';
+import { ContentItem, Country } from '../types';
 import { ContentCard } from '../components/ContentCard';
 import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
 import { YEARS } from '../constants';
 import { useSessionStorage } from '../hooks/useSessionStorage';
-
-const COUNTRIES = [
-    { label: 'Trung Quốc', value: 'trung-quoc' },
-    { label: 'Hàn Quốc', value: 'han-quoc' },
-    { label: 'Mỹ', value: 'au-my' },
-    { label: 'Nhật Bản', value: 'nhat-ban' },
-    { label: 'Hồng Kông', value: 'hong-kong' },
-    { label: 'Việt Nam', value: 'viet-nam' },
-];
 
 interface CategoryPageProps {
     isComic?: boolean;
@@ -30,13 +21,14 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
     const [hasMore, setHasMore] = useState(true);
     const [showFilters, setShowFilters] = useSessionStorage(`category_${slug}_show_filters`, false);
     
+    const [countries, setCountries] = useState<Country[]>([]);
     const [country, setCountry] = useSessionStorage(`category_${slug}_country`, '');
     const [year, setYear] = useSessionStorage(`category_${slug}_year`, '');
 
     const observer = useRef<IntersectionObserver | null>(null);
 
     useEffect(() => {
-        const fetchName = async () => {
+        const fetchMeta = async () => {
             const allCats = await getCategories(isComic);
             const currentCat = allCats.find(c => c.slug === slug);
             if (currentCat) {
@@ -44,8 +36,13 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
             } else {
                 setTitle(slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Thể Loại');
             }
+            
+            if (!isComic) {
+                const countriesList = await getCountries();
+                setCountries(countriesList);
+            }
         };
-        fetchName();
+        fetchMeta();
     }, [slug, isComic]);
 
     useEffect(() => {
@@ -91,6 +88,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
         if (node) observer.current.observe(node);
     }, [loading, hasMore]);
 
+    const countryOptions = countries.map(c => ({ value: c.slug, label: c.name }));
     const activeFiltersCount = [country, year].filter(Boolean).length;
 
     return (
@@ -130,7 +128,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
                                 <CustomSelect 
                                     value={country}
                                     onChange={setCountry}
-                                    options={COUNTRIES}
+                                    options={countryOptions}
                                     placeholder="Quốc gia"
                                     className="w-full"
                                 />
