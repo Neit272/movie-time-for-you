@@ -121,5 +121,3 @@ Mọi đóng góp đều được hoan nghênh. Nếu bạn tìm thấy lỗi ho
 5. Mở Pull Request
 
 ---
-
-**_**When there is no more us...**_**
