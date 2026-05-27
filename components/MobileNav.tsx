@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Icons } from './Icon';
 import { getCategories } from '../services/api';
 import { Category } from '../types';
+import { is$Mode, check$Code } from '../services/api.ob';
 
 const MobileNavItem = ({ 
     icon: Icon, 
@@ -58,9 +59,49 @@ const SubMenuLink = ({
 
 export const MobileNav = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<'movies' | 'comics' | null>(null);
   const [comicGenres, setComicGenres] = useState<Category[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [c$Cnt, setC$Cnt] = useState(0);
+  const [c$Show, setC$Show] = useState(false);
+  const [c$Val, setC$Val] = useState('');
+  const c$Ref = useRef<ReturnType<typeof setTimeout>>();
+
+  const handle$Click = () => {
+    clearTimeout(c$Ref.current);
+    const n = c$Cnt + 1;
+    if (n >= 7) {
+      setC$Cnt(0);
+      setC$Show(true);
+      return;
+    }
+    setC$Cnt(n);
+    c$Ref.current = setTimeout(() => setC$Cnt(0), 2000);
+    const target = is$Mode() ? '/x' : '/';
+    if (location.pathname !== target) {
+      navigate(target);
+    }
+    setActiveMenu(null);
+  };
+
+  const handle$Submit = () => {
+    if (check$Code(c$Val)) {
+      const active = is$Mode();
+      if (active) {
+        sessionStorage.removeItem('_a');
+      } else {
+        sessionStorage.setItem('_a', '1');
+      }
+      setC$Show(false);
+      setC$Val('');
+      navigate(active ? '/' : '/x');
+    }
+  };
+
+  useEffect(() => {
+    return () => clearTimeout(c$Ref.current);
+  }, []);
 
   useEffect(() => {
       setActiveMenu(null);
@@ -178,34 +219,39 @@ export const MobileNav = () => {
         <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0f0e17] border-t border-white/10 z-[100] pb-3 pb-safe pt-2 shadow-2xl shadow-black h-[60px]">
             <div className="flex items-center justify-around h-full">
                 <MobileNavItem 
-                    to="/" 
                     icon={Icons.Home} 
                     label="Home" 
-                    active={location.pathname === '/'} 
-                    onClick={() => setActiveMenu(null)}
+                    active={location.pathname === '/' || location.pathname === '/x'} 
+                    onClick={handle$Click}
                 />
                 
-                <MobileNavItem 
-                    icon={Icons.Film} 
-                    label="Phim" 
-                    active={activeMenu === 'movies' || location.pathname === '/movies' || location.pathname === '/series'} 
-                    onClick={() => toggleMenu('movies')}
-                />
+                {!is$Mode() && (
+                    <MobileNavItem 
+                        icon={Icons.Film} 
+                        label="Phim" 
+                        active={activeMenu === 'movies' || location.pathname === '/movies' || location.pathname === '/series'} 
+                        onClick={() => toggleMenu('movies')}
+                    />
+                )}
                 
-                <MobileNavItem 
-                    icon={Icons.BookOpen} 
-                    label="Truyện" 
-                    active={activeMenu === 'comics' || location.pathname.includes('/comics')} 
-                    onClick={() => toggleMenu('comics')}
-                />
+                {!is$Mode() && (
+                    <MobileNavItem 
+                        icon={Icons.BookOpen} 
+                        label="Truyện" 
+                        active={activeMenu === 'comics' || location.pathname.includes('/comics')} 
+                        onClick={() => toggleMenu('comics')}
+                    />
+                )}
                 
-                <MobileNavItem 
-                    to="/favorites" 
-                    icon={Icons.Heart} 
-                    label="Yêu Thích" 
-                    active={location.pathname === '/favorites'} 
-                    onClick={() => setActiveMenu(null)}
-                />
+                {!is$Mode() && (
+                    <MobileNavItem 
+                        to="/favorites" 
+                        icon={Icons.Heart} 
+                        label="Yêu Thích" 
+                        active={location.pathname === '/favorites'} 
+                        onClick={() => setActiveMenu(null)}
+                    />
+                )}
 
                 <MobileNavItem 
                     to="/search" 
@@ -216,6 +262,31 @@ export const MobileNav = () => {
                 />
             </div>
         </div>
+
+        {c$Show && (
+            <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm md:hidden" onClick={() => { setC$Show(false); setC$Val(''); }}>
+                <div className="bg-[#1a1825] border border-white/10 rounded-2xl p-6 shadow-2xl w-80 mx-4" onClick={e => e.stopPropagation()}>
+                    <h3 className="text-white font-bold text-lg mb-4 text-center">Xác nhận</h3>
+                    <input
+                        type="password"
+                        className="w-full px-4 py-3 bg-[#0b0a15] border border-white/10 rounded-xl text-white text-center text-lg tracking-widest placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-all mb-4"
+                        placeholder="••••••"
+                        value={c$Val}
+                        onChange={e => setC$Val(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') handle$Submit(); }}
+                        autoFocus
+                    />
+                    <div className="flex gap-3">
+                        <button onClick={() => { setC$Show(false); setC$Val(''); }} className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-xl text-slate-300 font-medium hover:bg-white/10 transition-all">
+                            Huỷ
+                        </button>
+                        <button onClick={handle$Submit} className="flex-1 py-2.5 bg-purple-600 rounded-xl text-white font-medium hover:bg-purple-700 transition-all">
+                            Xác nhận
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )}
     </>
   );
 };

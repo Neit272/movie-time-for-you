@@ -8,6 +8,7 @@ import { useSearchParams } from 'react-router-dom';
 import { CustomSelect } from '../components/CustomSelect';
 import { YEARS } from '../constants';
 import { useSessionStorage } from '../hooks/useSessionStorage';
+import { is$Mode } from '../services/api.ob';
 
 export const Search = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -28,14 +29,18 @@ export const Search = () => {
     const [category, setCategory] = useSessionStorage('search_category', '');
     const [country, setCountry] = useSessionStorage('search_country', '');
     const [year, setYear] = useSessionStorage('search_year', '');
+    const mode = is$Mode();
 
     const observer = useRef<IntersectionObserver | null>(null);
 
     useEffect(() => {
-        if (scopeParam === 'movie') setScope('movie');
+        if (mode) {
+            setScope('movie');
+            setSearchParams({ scope: 'movie' }, { replace: true });
+        } else if (scopeParam === 'movie') setScope('movie');
         else if (scopeParam === 'comic') setScope('comic');
         else if (searchParams.has('scope') && scopeParam === 'all') setScope('all');
-    }, [scopeParam, searchParams]);
+    }, [scopeParam, searchParams, mode]);
 
     const handleScopeChange = (newScope: 'all' | 'movie' | 'comic') => {
         setScope(newScope);
@@ -113,26 +118,30 @@ export const Search = () => {
     return (
         <div className="p-4 md:p-8 min-h-screen">
             <div className="flex flex-col gap-6 mb-8 max-w-5xl mx-auto">
-                 <div className="flex justify-center mb-2">
+                  <div className="flex justify-center mb-2">
                     <div className="bg-[#1a1825] p-1 rounded-xl flex">
-                        <button 
-                            onClick={() => handleScopeChange('all')}
-                            className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${scope === 'all' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
-                        >
-                            Tất cả
-                        </button>
+                        {!mode && (
+                            <button 
+                                onClick={() => handleScopeChange('all')}
+                                className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${scope === 'all' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                Tất cả
+                            </button>
+                        )}
                         <button 
                             onClick={() => handleScopeChange('movie')}
                             className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${scope === 'movie' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
                         >
                             Phim
                         </button>
-                        <button 
-                            onClick={() => handleScopeChange('comic')}
-                            className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${scope === 'comic' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
-                        >
-                            Truyện
-                        </button>
+                        {!mode && (
+                            <button 
+                                onClick={() => handleScopeChange('comic')}
+                                className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${scope === 'comic' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}
+                            >
+                                Truyện
+                            </button>
+                        )}
                     </div>
                  </div>
 

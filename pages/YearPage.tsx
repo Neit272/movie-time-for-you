@@ -7,6 +7,7 @@ import { ContentCardSkeleton } from '../components/ContentCardSkeleton';
 import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
 import { useSessionStorage } from '../hooks/useSessionStorage';
+import { is$Mode } from '../services/api.ob';
 
 export const YearPage = () => {
     const { year } = useParams<{ year: string }>();
@@ -116,13 +117,15 @@ export const YearPage = () => {
                                 className="w-full"
                             />
 
-                            <CustomSelect 
-                                value={country}
-                                onChange={setCountry}
-                                options={countryOptions}
-                                placeholder="Quốc gia"
-                                className="w-full"
-                            />
+                            {!is$Mode() && (
+                                <CustomSelect 
+                                    value={country}
+                                    onChange={setCountry}
+                                    options={countryOptions}
+                                    placeholder="Quốc gia"
+                                    className="w-full"
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
 import { YEARS } from '../constants';
 import { useSessionStorage } from '../hooks/useSessionStorage';
+import { is$Mode } from '../services/api.ob';
 
 interface CategoryPageProps {
     isComic?: boolean;
@@ -101,7 +102,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
                         {isComic ? 'Truyện' : 'Phim'} {title}
                     </h1>
 
-                    {!isComic && (
+                    {!isComic && !is$Mode() && (
                          <button 
                             onClick={() => setShowFilters(!showFilters)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
@@ -122,17 +123,19 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
                     )}
                 </div>
 
-                {!isComic && (
+                {!isComic && !is$Mode() && (
                     <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showFilters ? 'max-h-[300px] opacity-100 mt-4' : 'max-h-0 opacity-0'}`}>
                          <div className="bg-[#1a1825] border border-white/10 rounded-xl p-4 shadow-xl">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <CustomSelect 
-                                    value={country}
-                                    onChange={setCountry}
-                                    options={countryOptions}
-                                    placeholder="Quốc gia"
-                                    className="w-full"
-                                />
+                                {!is$Mode() && (
+                                    <CustomSelect 
+                                        value={country}
+                                        onChange={setCountry}
+                                        options={countryOptions}
+                                        placeholder="Quốc gia"
+                                        className="w-full"
+                                    />
+                                )}
 
                                 <CustomSelect 
                                     value={year}

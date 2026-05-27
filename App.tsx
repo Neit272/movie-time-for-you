@@ -37,6 +37,7 @@ const App: React.FC = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/x" element={<Home key="alt" />} />
           <Route path="/search" element={<Search />} />
           
           <Route path="/movies" element={<Catalog type="phim-le" title="Phim Lẻ" />} />

@@ -7,6 +7,7 @@ import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
 import { YEARS, COMIC_STATUSES } from '../constants';
 import { useSessionStorage } from '../hooks/useSessionStorage';
+import { is$Mode } from '../services/api.ob';
 
 interface CatalogProps {
     type: 'phim-le' | 'phim-bo' | 'hoat-hinh' | 'truyen-tranh' | 'phim-moi';
@@ -147,7 +148,7 @@ export const Catalog: React.FC<CatalogProps> = ({ type, title }) => {
                                 className="w-full"
                             />
 
-                            {type !== 'truyen-tranh' && (
+                            {type !== 'truyen-tranh' && !is$Mode() && (
                                 <CustomSelect 
                                     value={country}
                                     onChange={setCountry}

@@ -1,5 +1,6 @@
 import { ContentItem, ContentDetails, ContentType, Episode, Chapter, Category, Country } from '../types';
 import { MOCK_DB } from './mockData';
+import { is$Mode, get$List, get$Detail, get$Search, get$Cats, get$ByCategory, get$ByYear } from './api.ob';
 
 const API_BASE_URL = 'https://phimapi.com'; 
 const COMIC_API_BASE = 'https://otruyenapi.com';
@@ -198,6 +199,7 @@ const normalizeComicDetails = (apiResponse: any): ContentDetails => {
 };
 
 export const getCategories = async (isComic: boolean = false): Promise<Category[]> => {
+    if (is$Mode()) return get$Cats();
     try {
         if (isComic) {
             const response = await fetch(`${COMIC_API_BASE}/v1/api/the-loai`);
@@ -230,6 +232,7 @@ export const getCategories = async (isComic: boolean = false): Promise<Category[
 };
 
 export const getCountries = async (): Promise<Country[]> => {
+    if (is$Mode()) return [];
     try {
         const response = await fetch(`${API_BASE_URL}/quoc-gia`);
         if (!response.ok) return [];
@@ -248,6 +251,7 @@ export const getCountries = async (): Promise<Country[]> => {
 };
 
 export const getFeaturedContent = async (page: number = 1): Promise<ContentItem[]> => {
+    if (is$Mode()) return get$List(page);
     try {
         const response = await fetch(`${API_BASE_URL}/danh-sach/phim-moi-cap-nhat-v2?page=${page}`);
         if (!response.ok) return page === 1 ? MOCK_DB : [];
@@ -260,6 +264,7 @@ export const getFeaturedContent = async (page: number = 1): Promise<ContentItem[
 };
 
 export const getComicsList = async (page: number = 1, statusSlug: string = 'truyen-moi'): Promise<ContentItem[]> => {
+    if (is$Mode()) return [];
     try {
         const url = `${COMIC_API_BASE}/v1/api/danh-sach/${statusSlug}?page=${page}`;
         const response = await fetch(url);
@@ -293,6 +298,7 @@ export const getContentByCategory = async (
     filters: FilterParams = {},
     type?: string
 ): Promise<ContentItem[]> => {
+    if (is$Mode()) return get$ByCategory(slug, page, filters.year);
     try {
         if (type === 'truyen-tranh') {
             const url = `${COMIC_API_BASE}/v1/api/the-loai/${slug}?page=${page}`;
@@ -341,6 +347,7 @@ export const getContentByCountry = async (
     filters: FilterParams = {},
     type?: string
 ): Promise<ContentItem[]> => {
+    if (is$Mode()) return [];
     try {
         if (type === 'truyen-tranh') {
             return []; // Otruyen API không hỗ trợ lọc theo quốc gia
@@ -380,6 +387,7 @@ export const getContentByYear = async (
     filters: FilterParams = {},
     type?: string
 ): Promise<ContentItem[]> => {
+    if (is$Mode()) return get$ByYear(year, page);
     try {
         if (type === 'truyen-tranh') {
             return []; 
@@ -465,6 +473,7 @@ export const getDetailedList = async (
 };
 
 export const getContentById = async (id: string): Promise<ContentDetails | undefined> => {
+    if (is$Mode()) return get$Detail(id);
     try {
         const response = await fetch(`${API_BASE_URL}/phim/${id}`);
         if (response.ok) {
@@ -513,6 +522,7 @@ export const searchContent = async (
     filters: FilterParams = {}
 ): Promise<ContentItem[]> => {
     if (!keyword) return [];
+    if (is$Mode()) return get$Search(keyword, page);
 
     const scope = filters.scope || 'all';
 

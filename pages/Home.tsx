@@ -3,8 +3,9 @@ import { getFeaturedContent, getComicsList } from '../services/api';
 import { ContentItem } from '../types';
 import { ContentCard } from '../components/ContentCard';
 import { ContentCardSkeleton } from '../components/ContentCardSkeleton';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Icons } from '../components/Icon';
+import { check$Code, is$Mode } from '../services/api.ob';
 
 const Hero = ({ item }: { item: ContentItem }) => (
     <div className="relative w-full h-[50vh] md:h-[65vh] rounded-3xl overflow-hidden mb-8 md:mb-12 group mx-auto border border-white/5 shadow-2xl">
@@ -162,9 +163,53 @@ const InfiniteHorizontalList = ({ title, initialItems, type, isHistory = false }
 };
 
 export const Home = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [initialMovies, setInitialMovies] = useState<ContentItem[]>([]);
     const [initialComics, setInitialComics] = useState<ContentItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const [c$Cnt, setC$Cnt] = useState(0);
+    const [c$Show, setC$Show] = useState(false);
+    const [c$Val, setC$Val] = useState('');
+    const c$Ref = useRef<ReturnType<typeof setTimeout>>();
+    
+    const mode = is$Mode();
+    
+    useEffect(() => {
+        if (location.pathname === '/x' && !mode) {
+            navigate('/', { replace: true });
+        }
+    }, []);
+    
+    const handle$Click = () => {
+        clearTimeout(c$Ref.current);
+        const n = c$Cnt + 1;
+        if (n >= 7) {
+            setC$Cnt(0);
+            setC$Show(true);
+            return;
+        }
+        setC$Cnt(n);
+        c$Ref.current = setTimeout(() => setC$Cnt(0), 2000);
+    };
+
+    const handle$Submit = () => {
+        if (check$Code(c$Val)) {
+            const active = is$Mode();
+            if (active) {
+                sessionStorage.removeItem('_a');
+            } else {
+                sessionStorage.setItem('_a', '1');
+            }
+            setC$Show(false);
+            setC$Val('');
+            navigate(active ? '/' : '/x');
+        }
+    };
+
+    useEffect(() => {
+        return () => clearTimeout(c$Ref.current);
+    }, []);
     
     useEffect(() => {
         const load = async () => {
@@ -198,8 +243,8 @@ export const Home = () => {
     return (
         <div className="p-4 md:p-8 max-w-[1800px] mx-auto w-full overflow-hidden">
             <div className="flex md:hidden items-center justify-between -mx-4 -mt-4 px-4 py-3 mb-6 sticky top-0 z-40 bg-[#0b0a15]/80 backdrop-blur-xl border-b border-white/5">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-gradient-to-tr from-purple-500 to-pink-600 text-white shadow-lg shadow-purple-900/20">
+                <div className="flex items-center gap-3 cursor-pointer select-none" onClick={handle$Click}>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white shadow-lg transition-all ${is$Mode() ? 'bg-gradient-to-tr from-purple-500 to-pink-500 shadow-purple-500/50' : 'bg-gradient-to-tr from-purple-500 to-pink-600 shadow-purple-900/20'}`}>
                         <Icons.Play size={16} className="fill-current" />
                     </div>
                     <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
@@ -216,15 +261,42 @@ export const Home = () => {
                 type="movie"
             />
 
-            <InfiniteHorizontalList 
-                title="Truyện Mới Cập Nhật" 
-                initialItems={initialComics} 
-                type="comic"
-            />
+            {!mode && (
+                <InfiniteHorizontalList 
+                    title="Truyện Mới Cập Nhật" 
+                    initialItems={initialComics} 
+                    type="comic"
+                />
+            )}
             
             <div className="mt-8 text-center text-slate-500 text-sm pb-8 opacity-60">
                 <p>Kéo sang phải để xem thêm</p>
             </div>
+
+            {c$Show && (
+                <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={() => { setC$Show(false); setC$Val(''); }}>
+                    <div className="bg-[#1a1825] border border-white/10 rounded-2xl p-6 shadow-2xl w-80 mx-4" onClick={e => e.stopPropagation()}>
+                        <h3 className="text-white font-bold text-lg mb-4 text-center">Xác nhận</h3>
+                        <input
+                            type="password"
+                            className="w-full px-4 py-3 bg-[#0b0a15] border border-white/10 rounded-xl text-white text-center text-lg tracking-widest placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-all mb-4"
+                            placeholder="••••••"
+                            value={c$Val}
+                            onChange={e => setC$Val(e.target.value)}
+                            onKeyDown={e => { if (e.key === 'Enter') handle$Submit(); }}
+                            autoFocus
+                        />
+                        <div className="flex gap-3">
+                            <button onClick={() => { setC$Show(false); setC$Val(''); }} className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-xl text-slate-300 font-medium hover:bg-white/10 transition-all">
+                                Huỷ
+                            </button>
+                            <button onClick={handle$Submit} className="flex-1 py-2.5 bg-purple-600 rounded-xl text-white font-medium hover:bg-purple-700 transition-all">
+                                Xác nhận
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
