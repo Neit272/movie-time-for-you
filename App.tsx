@@ -12,6 +12,7 @@ import { CategoryPage } from './pages/CategoryPage';
 import { CountryPage } from './pages/CountryPage';
 import { YearPage } from './pages/YearPage';
 import { Favorites } from './pages/Favorites';
+import { NotFound } from './pages/NotFound';
 
 const Layout = ({ children }: { children?: React.ReactNode }) => {
     const location = useLocation();
@@ -56,7 +57,7 @@ const App: React.FC = () => {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/watch/:id" element={<WatchRead />} />
           
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
       </ErrorBoundary>
