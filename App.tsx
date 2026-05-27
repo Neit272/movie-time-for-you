@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { MobileNav } from './components/MobileNav';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Home } from './pages/Home';
 import { Catalog } from './pages/Catalog';
 import { Details } from './pages/Details';
@@ -14,7 +15,7 @@ import { Favorites } from './pages/Favorites';
 
 const Layout = ({ children }: { children?: React.ReactNode }) => {
     const location = useLocation();
-    const isImmersive = location.pathname.includes('/watch');
+    const isImmersive = location.pathname.startsWith('/watch');
 
     return (
         <div className="flex min-h-screen bg-[#0b0a15] text-slate-100 font-sans selection:bg-purple-500/30 overflow-x-hidden">
@@ -32,6 +33,7 @@ const Layout = ({ children }: { children?: React.ReactNode }) => {
 const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <ErrorBoundary>
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -56,6 +58,7 @@ const App: React.FC = () => {
           <Route path="*" element={<Home />} />
         </Routes>
       </Layout>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 };

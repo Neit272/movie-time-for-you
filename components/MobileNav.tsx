@@ -86,6 +86,11 @@ export const MobileNav = () => {
     fetchGenres();
   }, []);
 
+  useEffect(() => {
+      document.body.style.overflow = activeMenu ? 'hidden' : '';
+      return () => { document.body.style.overflow = ''; };
+  }, [activeMenu]);
+
   const toggleMenu = (menu: 'movies' | 'comics') => {
       if (activeMenu === menu) {
           setActiveMenu(null);
@@ -170,7 +175,7 @@ export const MobileNav = () => {
             </div>
         </div>
 
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0f0e17] border-t border-white/10 z-[100] pb-safe pt-2 shadow-2xl shadow-black h-[60px] pb-3">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0f0e17] border-t border-white/10 z-[100] pb-3 pb-safe pt-2 shadow-2xl shadow-black h-[60px]">
             <div className="flex items-center justify-around h-full">
                 <MobileNavItem 
                     to="/" 

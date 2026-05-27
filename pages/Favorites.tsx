@@ -8,8 +8,12 @@ import { Link } from 'react-router-dom';
 export const Favorites = () => {
     const [items, setItems] = useState<ContentItem[]>([]);
 
+    const refresh = () => setItems(getFavorites());
+
     useEffect(() => {
-        setItems(getFavorites());
+        refresh();
+        window.addEventListener('focus', refresh);
+        return () => window.removeEventListener('focus', refresh);
     }, []);
 
     return (

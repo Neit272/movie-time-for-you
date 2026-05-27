@@ -30,8 +30,7 @@ export const Sidebar = () => {
       const fetchComicGenres = async () => {
           const cats = await getCategories(true);
           if (cats.length > 0) {
-              const shuffled = [...cats].sort(() => 0.5 - Math.random());
-              setComicGenres(shuffled.slice(0, 3));
+              setComicGenres(cats.slice(0, 3));
           }
       };
       fetchComicGenres();

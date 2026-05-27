@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { searchContent, getCategories, getCountries } from '../services/api';
 import { ContentItem, Category, Country } from '../types';
 import { ContentCard } from '../components/ContentCard';
+import { ContentCardSkeleton } from '../components/ContentCardSkeleton';
 import { Icons } from '../components/Icon';
 import { useSearchParams } from 'react-router-dom';
 import { CustomSelect } from '../components/CustomSelect';
@@ -14,6 +15,7 @@ export const Search = () => {
 
     const [keyword, setKeyword] = useSessionStorage('search_keyword', '');
     const [debouncedKeyword, setDebouncedKeyword] = useSessionStorage('search_debounced_keyword', '');
+    const [isDebouncing, setIsDebouncing] = useState(false);
     const [items, setItems] = useState<ContentItem[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -46,8 +48,12 @@ export const Search = () => {
     }, []);
 
     useEffect(() => {
+        if (keyword !== debouncedKeyword) {
+            setIsDebouncing(true);
+        }
         const handler = setTimeout(() => {
             setDebouncedKeyword(keyword);
+            setIsDebouncing(false);
         }, 600);
         return () => clearTimeout(handler);
     }, [keyword]);
@@ -138,11 +144,17 @@ export const Search = () => {
                         <input 
                             type="text"
                             placeholder={scope === 'movie' ? "Tìm kiếm phim..." : scope === 'comic' ? "Tìm kiếm truyện..." : "Nhập tên nội dung..."}
-                            className="w-full pl-12 pr-4 py-3 bg-[#1a1825] border border-white/10 rounded-xl text-white text-lg placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-lg"
+                            className="w-full pl-12 pr-12 py-3 bg-[#1a1825] border border-white/10 rounded-xl text-white text-lg placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all shadow-lg"
                             value={keyword}
                             onChange={(e) => setKeyword(e.target.value)}
                             autoFocus
                         />
+                        {isDebouncing && (
+                            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-xs text-purple-400">
+                                <div className="w-3 h-3 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                                Đang tìm...
+                            </div>
+                        )}
                     </div>
                     
                     <button 
@@ -210,7 +222,15 @@ export const Search = () => {
                 })}
             </div>
 
-            {loading && (
+            {items.length === 0 && loading && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8">
+                    {Array.from({ length: 12 }).map((_, i) => (
+                        <div key={i}><ContentCardSkeleton /></div>
+                    ))}
+                </div>
+            )}
+
+            {items.length > 0 && loading && (
                 <div className="flex items-center justify-center py-12">
                      <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                 </div>

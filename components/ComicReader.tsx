@@ -37,15 +37,30 @@ export const ComicReader: React.FC<ComicReaderProps> = ({
   }, [chapter.id, chapter.apiUrl]);
 
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    const handleScroll = () => {
-      if (Math.abs(window.scrollY - lastScrollY) > 50) {
-        setUiVisible(false);
-        lastScrollY = window.scrollY;
-      }
+    let idleTimer: ReturnType<typeof setTimeout>;
+
+    const setIdleTimer = () => {
+        clearTimeout(idleTimer);
+        setUiVisible(true);
+        idleTimer = setTimeout(() => setUiVisible(false), 3000);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    setIdleTimer();
+
+    const handleInteraction = () => setIdleTimer();
+
+    window.addEventListener('mousemove', handleInteraction);
+    window.addEventListener('scroll', handleInteraction);
+    window.addEventListener('click', handleInteraction);
+    window.addEventListener('touchstart', handleInteraction);
+
+    return () => {
+        clearTimeout(idleTimer);
+        window.removeEventListener('mousemove', handleInteraction);
+        window.removeEventListener('scroll', handleInteraction);
+        window.removeEventListener('click', handleInteraction);
+        window.removeEventListener('touchstart', handleInteraction);
+    };
   }, []);
 
   const handleZoneClick = (e: React.MouseEvent) => {

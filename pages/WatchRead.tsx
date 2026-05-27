@@ -33,17 +33,23 @@ export const WatchRead = () => {
   };
 
   if (content.type === ContentType.COMIC || content.type === ContentType.MANGA) {
-      const chNum = parseInt(searchParams.get('ch') || '1');
-      const chapter = content.chapters?.find(c => c.number === chNum) || content.chapters?.[0];
+      const rawChNum = parseInt(searchParams.get('ch') || '1');
+      const chapter = content.chapters?.find(c => c.number === rawChNum) || content.chapters?.[0];
 
       if (!chapter) return <div className="h-screen bg-black flex items-center justify-center text-white">Chương không tồn tại</div>;
+
+      const actualChNum = chapter.number;
+
+      if (rawChNum !== actualChNum) {
+          navigate(`/watch/${id}?ch=${actualChNum}`, { replace: true });
+      }
 
       return (
         <ComicReader 
             chapter={chapter} 
             onClose={handleClose}
-            onNextChapter={content.chapters?.find(c => c.number === chNum + 1) ? () => navigate(`/watch/${id}?ch=${chNum + 1}`) : undefined}
-            onPrevChapter={chNum > 1 ? () => navigate(`/watch/${id}?ch=${chNum - 1}`) : undefined}
+            onNextChapter={content.chapters?.find(c => c.number === actualChNum + 1) ? () => navigate(`/watch/${id}?ch=${actualChNum + 1}`) : undefined}
+            onPrevChapter={actualChNum > 1 ? () => navigate(`/watch/${id}?ch=${actualChNum - 1}`) : undefined}
             contentId={content.id}
             contentTitle={content.title}
             contentImage={content.coverImage}
@@ -105,7 +111,7 @@ export const WatchRead = () => {
                                     const newServerEpisodes = content.episodes?.[idx]?.server_data || [];
                                     const sameEp = newServerEpisodes.find(e => e.number === epNum);
                                     const newEpNum = sameEp ? epNum : (newServerEpisodes[0]?.number || 1);
-                                    navigate(`/watch/${id}?ep=${newEpNum}&server=${idx}`, { replace: true });
+                                    navigate(`/watch/${id}?ep=${newEpNum}&server=${idx}`);
                                 }}
                                 className={`px-4 py-2 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap transition-all border ${
                                     serverIdx === idx 
@@ -124,7 +130,7 @@ export const WatchRead = () => {
                 {episodes.map(ep => (
                     <button
                         key={ep.id}
-                        onClick={() => navigate(`/watch/${id}?ep=${ep.number}&server=${serverIdx}`, { replace: true })}
+                        onClick={() => navigate(`/watch/${id}?ep=${ep.number}&server=${serverIdx}`)}
                         className={`py-3 px-2 rounded-lg border text-center transition-all group truncate text-sm font-medium ${
                             ep.number === epNum
                             ? 'bg-purple-600 border-purple-500 text-white shadow-lg shadow-purple-900/40'

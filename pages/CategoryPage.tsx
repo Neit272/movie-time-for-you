@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getContentByCategory, getCategories, getCountries } from '../services/api';
 import { ContentItem, Country } from '../types';
 import { ContentCard } from '../components/ContentCard';
+import { ContentCardSkeleton } from '../components/ContentCardSkeleton';
 import { Icons } from '../components/Icon';
 import { CustomSelect } from '../components/CustomSelect';
 import { YEARS } from '../constants';
@@ -164,7 +165,15 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
                 })}
             </div>
 
-            {loading && (
+            {items.length === 0 && loading && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8">
+                    {Array.from({ length: 12 }).map((_, i) => (
+                        <div key={i}><ContentCardSkeleton /></div>
+                    ))}
+                </div>
+            )}
+
+            {items.length > 0 && loading && (
                 <div className="flex items-center justify-center py-12">
                      <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                 </div>

@@ -56,7 +56,7 @@ const normalizeContentItem = (apiData: any, cdnDomain?: string): ContentItem => 
         type: inferType(apiData),
         coverImage: optimizeImageUrl(thumb),
         backdropImage: optimizeImageUrl(poster),
-        description: apiData.origin_name || '', 
+        description: '', 
         rating: 0, 
         year: apiData.year || new Date().getFullYear(),
         tags: apiData.category?.map((c: any) => c.name) || [],
@@ -343,15 +343,7 @@ export const getContentByCountry = async (
 ): Promise<ContentItem[]> => {
     try {
         if (type === 'truyen-tranh') {
-            const url = `${COMIC_API_BASE}/v1/api/quoc-gia/${slug}?page=${page}`;
-            const response = await fetch(url);
-            if (!response.ok) return [];
-            const data = await response.json();
-             if (!data.status || !data.data || !data.data.items) return [];
-            const cdnDomain = data.data.APP_DOMAIN_CDN_IMAGE;
-            return data.data.items
-                .filter(isValidComic)
-                .map((item: any) => normalizeComicItem(item, cdnDomain));
+            return []; // Otruyen API không hỗ trợ lọc theo quốc gia
         }
 
         const params = new URLSearchParams({
