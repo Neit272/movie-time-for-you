@@ -120,6 +120,15 @@ export const check$Code = (c: string): boolean => {
     return c === _d($p);
 };
 
+export const set$Mode = (active: boolean) => {
+    if (active) {
+        sessionStorage.setItem('_a', '1');
+    } else {
+        sessionStorage.removeItem('_a');
+    }
+    window.dispatchEvent(new Event('$modechange'));
+};
+
 export const get$Cats = () => {
     return [
         { id: '1', name: 'Censored', slug: '1' },

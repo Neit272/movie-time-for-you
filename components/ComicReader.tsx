@@ -124,12 +124,12 @@ export const ComicReader: React.FC<ComicReaderProps> = ({
          ) : mode === ReaderMode.VERTICAL ? (
              <div className="flex flex-col gap-0 max-w-4xl mx-auto shadow-2xl bg-white/5">
                  {pages.map((page, idx) => (
-                     <img key={idx} src={page} alt={`Page ${idx + 1}`} className="w-full h-auto block" loading="lazy" />
+                      <img key={idx} src={page} alt={`Page ${idx + 1}`} className="w-full h-auto block" loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                  ))}
              </div>
          ) : (
              <div className="max-w-4xl mx-auto h-[80vh] flex items-center justify-center">
-                 <img src={pages[currentPage]} alt={`Page ${currentPage}`} className="max-h-full max-w-full object-contain" />
+                  <img src={pages[currentPage]} alt={`Page ${currentPage}`} className="max-h-full max-w-full object-contain" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                  
                  <button 
                     onClick={(e) => { e.stopPropagation(); setCurrentPage(p => Math.max(0, p - 1)); }}

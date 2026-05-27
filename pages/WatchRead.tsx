@@ -35,7 +35,9 @@ export const WatchRead = () => {
 
   if (content.type === ContentType.COMIC || content.type === ContentType.MANGA) {
       const rawChNum = parseInt(searchParams.get('ch') || '1');
-      const chapter = content.chapters?.find(c => c.number === rawChNum) || content.chapters?.[0];
+      const chapters = content.chapters || [];
+      const chapterIndex = chapters.findIndex(c => c.number === rawChNum);
+      const chapter = chapterIndex >= 0 ? chapters[chapterIndex] : chapters[0];
 
       if (!chapter) return <div className="h-screen bg-black flex items-center justify-center text-white">Chương không tồn tại</div>;
 
@@ -49,8 +51,8 @@ export const WatchRead = () => {
         <ComicReader 
             chapter={chapter} 
             onClose={handleClose}
-            onNextChapter={content.chapters?.find(c => c.number === actualChNum + 1) ? () => navigate(`/watch/${id}?ch=${actualChNum + 1}`) : undefined}
-            onPrevChapter={actualChNum > 1 ? () => navigate(`/watch/${id}?ch=${actualChNum - 1}`) : undefined}
+            onNextChapter={chapterIndex < chapters.length - 1 ? () => navigate(`/watch/${id}?ch=${chapters[chapterIndex + 1].number}`) : undefined}
+            onPrevChapter={chapterIndex > 0 ? () => navigate(`/watch/${id}?ch=${chapters[chapterIndex - 1].number}`) : undefined}
             contentId={content.id}
             contentTitle={content.title}
             contentImage={content.coverImage}

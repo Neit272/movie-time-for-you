@@ -5,11 +5,11 @@ import { ContentCard } from '../components/ContentCard';
 import { ContentCardSkeleton } from '../components/ContentCardSkeleton';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Icons } from '../components/Icon';
-import { check$Code, is$Mode } from '../services/api.ob';
+import { check$Code, is$Mode, set$Mode } from '../services/api.ob';
 
 const Hero = ({ item }: { item: ContentItem }) => (
     <div className="relative w-full h-[50vh] md:h-[65vh] rounded-3xl overflow-hidden mb-8 md:mb-12 group mx-auto border border-white/5 shadow-2xl">
-        <img src={item.backdropImage} alt={item.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+        <img src={item.backdropImage} alt={item.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" onError={(e) => { e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675"%3E%3Crect fill="%231a1825" width="1200" height="675"/%3E%3C/svg%3E'; e.currentTarget.onerror = null; }} />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a15] via-[#0b0a15]/60 md:via-[#0b0a15]/30 to-transparent" />
         
         <div className="absolute bottom-0 left-0 p-6 md:p-12 w-full md:w-2/3 lg:w-1/2">
@@ -196,11 +196,7 @@ export const Home = () => {
     const handle$Submit = () => {
         if (check$Code(c$Val)) {
             const active = is$Mode();
-            if (active) {
-                sessionStorage.removeItem('_a');
-            } else {
-                sessionStorage.setItem('_a', '1');
-            }
+            set$Mode(!active);
             setC$Show(false);
             setC$Val('');
             navigate(active ? '/' : '/x');

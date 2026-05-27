@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Hls from 'hls.js';
 import { Icons } from './Icon';
+import { VideoPlayer } from './VideoPlayer';
 
 interface HlsPlayerProps {
   embedUrl: string;
@@ -94,7 +95,17 @@ export const HlsPlayer: React.FC<HlsPlayerProps> = ({ embedUrl, poster, title, o
     return () => clearTimeout(timeoutRef.current);
   }, [showControls]);
 
-  if (error) return null;
+  if (error) {
+    return (
+      <div className="relative w-full h-full bg-black">
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[60] bg-amber-600/90 text-white px-4 py-2 rounded-lg text-sm shadow-lg flex items-center gap-2 backdrop-blur-sm animate-in fade-in">
+          <Icons.AlertTriangle size={16} className="shrink-0" />
+          <span>Không thể lọc quảng cáo — có quảng cáo ở ~phút 15 (âm lượng to), hãy tua tới 15:30 để bỏ qua</span>
+        </div>
+        <VideoPlayer embedUrl={embedUrl} poster={poster} title={title} onClose={onClose} />
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full h-full bg-black group">

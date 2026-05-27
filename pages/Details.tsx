@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getContentById } from '../services/api'; 
+import { getContentById } from '../services/api';
+import DOMPurify from 'dompurify';
 import { isFavorite, toggleFavorite } from '../services/localStorage';
 import { ContentDetails, ContentType } from '../types';
 import { Icons } from '../components/Icon';
@@ -59,7 +60,7 @@ export const Details = () => {
     <div className="relative min-h-screen bg-[#0b0a15] pb-24 md:pb-12 overflow-x-hidden">
       <div className="relative h-[40vh] md:h-[50vh] w-full">
         <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a15] via-[#0b0a15]/60 to-transparent z-10" />
-        <img src={content.backdropImage} alt="Backdrop" className="w-full h-full object-cover" />
+        <img src={content.backdropImage} alt="Backdrop" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675"%3E%3Crect fill="%231a1825" width="1200" height="675"/%3E%3C/svg%3E'; e.currentTarget.onerror = null; }} />
         
         <Link to="/" className="absolute top-4 left-4 z-50 p-2 bg-black/40 backdrop-blur-md rounded-full text-white border border-white/10 md:hidden">
             <Icons.ChevronLeft size={24} />
@@ -69,7 +70,7 @@ export const Details = () => {
       <div className="relative z-20 -mt-24 md:-mt-32 px-4 md:px-12 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
             <div className="flex-shrink-0 mx-auto md:mx-0 relative">
-                <img src={content.coverImage} alt={content.title} className="w-[140px] md:w-[200px] aspect-[2/3] rounded-xl shadow-2xl shadow-black/50 object-cover border border-white/5" />
+                <img src={content.coverImage} alt={content.title} className="w-[140px] md:w-[200px] aspect-[2/3] rounded-xl shadow-2xl shadow-black/50 object-cover border border-white/5" onError={(e) => { e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="300" viewBox="0 0 200 300"%3E%3Crect fill="%231a1825" width="200" height="300"/%3E%3Ccircle cx="100" cy="120" r="30" fill="%233b3555"/%3E%3Crect x="60" y="170" width="80" height="70" rx="5" fill="%233b3555"/%3E%3C/svg%3E'; e.currentTarget.onerror = null; }} />
             </div>
 
             <div className="flex-1 text-center md:text-left">
@@ -137,13 +138,13 @@ export const Details = () => {
                     </div>
                 )}
 
-                <p className="text-slate-300 leading-relaxed max-w-2xl mb-6 text-sm md:text-base text-left md:text-left mx-auto md:mx-0 px-2 md:px-0" dangerouslySetInnerHTML={{__html: content.description}} />
+                <p className="text-slate-300 leading-relaxed max-w-2xl mb-6 text-sm md:text-base text-left md:text-left mx-auto md:mx-0 px-2 md:px-0" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.description)}} />
 
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-8">
                     {content.categories && content.categories.length > 0 ? (
                         content.categories.map(cat => (
                             <Link 
-                                to={`/category/${cat.slug}`} 
+                                to={(content.type === ContentType.COMIC || content.type === ContentType.MANGA) ? `/comic-category/${cat.slug}` : `/category/${cat.slug}`} 
                                 key={cat.id} 
                                 className="px-3 py-1 bg-[#1a1825] rounded-full text-[10px] md:text-xs text-slate-400 border border-white/10 hover:bg-purple-600 hover:text-white transition-colors cursor-pointer"
                             >

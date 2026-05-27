@@ -73,6 +73,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
         setLoading(false);
     };
 
+    const loadDataRef = useRef(loadData);
+    loadDataRef.current = loadData;
+
     const lastElementRef = useCallback((node: HTMLDivElement) => {
         if (loading) return;
         if (observer.current) observer.current.disconnect();
@@ -81,7 +84,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ isComic = false }) =
             if (entries[0].isIntersecting && hasMore) {
                 setPage(prev => {
                     const nextPage = prev + 1;
-                    loadData(nextPage, false);
+                    loadDataRef.current(nextPage, false);
                     return nextPage;
                 });
             }

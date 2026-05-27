@@ -79,6 +79,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             src={poster} 
             alt="Video Content" 
             className={`w-full h-full object-cover opacity-60 transition-opacity duration-1000 ${isPlaying ? 'opacity-100' : 'opacity-40'}`} 
+            onError={(e) => { e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450"%3E%3Crect fill="%231a1825" width="800" height="450"/%3E%3Ccircle cx="400" cy="200" r="50" fill="%233b3555"/%3E%3Crect x="280" y="280" width="240" height="100" rx="10" fill="%233b3555"/%3E%3C/svg%3E'; e.currentTarget.onerror = null; }}
         />
         {!isPlaying && (
             <div className="absolute inset-0 flex items-center justify-center">

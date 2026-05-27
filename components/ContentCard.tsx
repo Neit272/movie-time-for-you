@@ -10,6 +10,7 @@ interface ContentCardProps {
 
 export const ContentCard: React.FC<ContentCardProps> = ({ item, priority = false }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const getBadgeInfo = (type: ContentType) => {
       if (type === ContentType.SERIES) {
@@ -27,7 +28,7 @@ export const ContentCard: React.FC<ContentCardProps> = ({ item, priority = false
     <Link to={`/details/${item.id}`} className="group relative block w-full cursor-pointer h-full">
       <div className="relative aspect-[2/3] overflow-hidden rounded-xl bg-[#1a1825] shadow-lg border border-white/5 transition-all duration-300 group-hover:scale-[1.03] group-hover:shadow-purple-900/30 group-hover:border-purple-500/30">
         
-        {!isLoaded && (
+        {(!isLoaded || isError) && (
             <div className="absolute inset-0 flex items-center justify-center bg-[#1e1b2e] animate-pulse z-0">
                 <Icons.Film className="text-slate-700 opacity-20" size={24} />
             </div>
@@ -39,6 +40,7 @@ export const ContentCard: React.FC<ContentCardProps> = ({ item, priority = false
           className={`h-full w-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           loading={priority ? "eager" : "lazy"}
           onLoad={() => setIsLoaded(true)}
+          onError={() => setIsError(true)}
         />
         
         <div className="absolute top-2 left-2 z-10">

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Icons } from './Icon';
 import { getCategories } from '../services/api';
 import { Category } from '../types';
-import { is$Mode, check$Code } from '../services/api.ob';
+import { is$Mode, check$Code, set$Mode } from '../services/api.ob';
 
 const MobileNavItem = ({ 
     icon: Icon, 
@@ -88,11 +88,7 @@ export const MobileNav = () => {
   const handle$Submit = () => {
     if (check$Code(c$Val)) {
       const active = is$Mode();
-      if (active) {
-        sessionStorage.removeItem('_a');
-      } else {
-        sessionStorage.setItem('_a', '1');
-      }
+      set$Mode(!active);
       setC$Show(false);
       setC$Val('');
       navigate(active ? '/' : '/x');

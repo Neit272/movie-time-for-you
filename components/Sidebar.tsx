@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Icons } from './Icon';
 import { getCategories } from '../services/api';
 import { Category } from '../types';
-import { check$Code, is$Mode, get$Cats } from '../services/api.ob';
+import { check$Code, is$Mode, get$Cats, set$Mode } from '../services/api.ob';
 
 const NavLink = ({ to, label, icon: Icon, active }: { to: string, label: string, icon?: any, active?: boolean }) => (
     <Link 
@@ -51,11 +51,7 @@ export const Sidebar = () => {
   const handle$Submit = () => {
       if (check$Code(c$Val)) {
           const active = is$Mode();
-          if (active) {
-              sessionStorage.removeItem('_a');
-          } else {
-              sessionStorage.setItem('_a', '1');
-          }
+          set$Mode(!active);
           setC$Show(false);
           setC$Val('');
           navigate(active ? '/' : '/x');
