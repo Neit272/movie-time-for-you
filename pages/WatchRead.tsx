@@ -3,6 +3,7 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { getContentById } from '../services/api';
 import { ContentDetails, ContentType } from '../types';
 import { VideoPlayer } from '../components/VideoPlayer';
+import { HlsPlayer } from '../components/HlsPlayer';
 import { ComicReader } from '../components/ComicReader';
 import { Icons } from '../components/Icon';
 
@@ -70,19 +71,30 @@ export const WatchRead = () => {
   
   const title = episode ? `${content.title} - ${episode.title}` : content.title;
   
+  const isPhimapi = episode?.link_embed?.includes('player.phimapi.com');
+  
   return (
     <div className="min-h-screen bg-[#0b0a15] flex flex-col">
         <div className="w-full aspect-video md:h-[75vh] bg-black sticky top-0 z-50 shadow-2xl shadow-purple-900/20">
-            <VideoPlayer 
-                title={title}
-                poster={content.backdropImage}
-                embedUrl={episode?.link_embed}
-                onClose={handleClose}
-                contentId={content.id}
-                contentTitle={content.title}
-                contentImage={content.coverImage}
-                episodeNumber={epNum}
-            />
+            {isPhimapi && episode?.link_embed ? (
+                <HlsPlayer 
+                    title={title}
+                    poster={content.backdropImage}
+                    embedUrl={episode.link_embed}
+                    onClose={handleClose}
+                />
+            ) : (
+                <VideoPlayer 
+                    title={title}
+                    poster={content.backdropImage}
+                    embedUrl={episode?.link_embed}
+                    onClose={handleClose}
+                    contentId={content.id}
+                    contentTitle={content.title}
+                    contentImage={content.coverImage}
+                    episodeNumber={epNum}
+                />
+            )}
             
             {!episode?.link_embed && (
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-red-900/80 text-white p-4 rounded-xl backdrop-blur-md">
