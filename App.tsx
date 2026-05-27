@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { MobileNav } from './components/MobileNav';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { Home } from './pages/Home';
-import { Catalog } from './pages/Catalog';
-import { Details } from './pages/Details';
-import { WatchRead } from './pages/WatchRead';
-import { Search } from './pages/Search';
-import { CategoryPage } from './pages/CategoryPage';
-import { CountryPage } from './pages/CountryPage';
-import { YearPage } from './pages/YearPage';
-import { Favorites } from './pages/Favorites';
-import { NotFound } from './pages/NotFound';
+
+const Home = React.lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+const Catalog = React.lazy(() => import('./pages/Catalog').then(m => ({ default: m.Catalog })));
+const Details = React.lazy(() => import('./pages/Details').then(m => ({ default: m.Details })));
+const WatchRead = React.lazy(() => import('./pages/WatchRead').then(m => ({ default: m.WatchRead })));
+const Search = React.lazy(() => import('./pages/Search').then(m => ({ default: m.Search })));
+const CategoryPage = React.lazy(() => import('./pages/CategoryPage').then(m => ({ default: m.CategoryPage })));
+const CountryPage = React.lazy(() => import('./pages/CountryPage').then(m => ({ default: m.CountryPage })));
+const YearPage = React.lazy(() => import('./pages/YearPage').then(m => ({ default: m.YearPage })));
+const Favorites = React.lazy(() => import('./pages/Favorites').then(m => ({ default: m.Favorites })));
+const NotFound = React.lazy(() => import('./pages/NotFound').then(m => ({ default: m.NotFound })));
+
+const Loader = () => (
+    <div className="flex h-screen items-center justify-center bg-[#0b0a15]">
+        <div className="w-8 h-8 border-2 border-purple-500 rounded-full animate-spin border-t-transparent" />
+    </div>
+);
 
 const Layout = ({ children }: { children?: React.ReactNode }) => {
     const location = useLocation();
@@ -36,6 +43,7 @@ const App: React.FC = () => {
     <BrowserRouter>
       <ErrorBoundary>
       <Layout>
+        <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/x" element={<Home key="alt" />} />
@@ -59,6 +67,7 @@ const App: React.FC = () => {
           
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </Layout>
       </ErrorBoundary>
     </BrowserRouter>

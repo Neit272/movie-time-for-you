@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getContentById } from '../services/api';
+import { getContentById, getContentByCategory } from '../services/api';
 import DOMPurify from 'dompurify';
 import { isFavorite, toggleFavorite } from '../services/localStorage';
-import { ContentDetails, ContentType } from '../types';
+import { ContentDetails, ContentItem, ContentType } from '../types';
 import { Icons } from '../components/Icon';
+import { ContentCard } from '../components/ContentCard';
 
 export const Details = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,6 +14,7 @@ export const Details = () => {
   const [selectedServerIndex, setSelectedServerIndex] = useState(0);
   
   const [isFav, setIsFav] = useState(false);
+  const [relatedContent, setRelatedContent] = useState<ContentItem[]>([]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -27,6 +29,15 @@ export const Details = () => {
     };
     fetch();
   }, [id]);
+
+  useEffect(() => {
+    if (!content?.categories?.length) return;
+    const catSlug = content.categories[0].slug;
+    const type = content.type === ContentType.COMIC || content.type === ContentType.MANGA ? 'truyen-tranh' : undefined;
+    getContentByCategory(catSlug, 1, {}, type).then(items => {
+      setRelatedContent(items.filter(i => i.id !== content.id).slice(0, 10));
+    }).catch(() => {});
+  }, [content]);
 
   const handleToggleFav = () => {
       if (!content) return;
@@ -223,6 +234,20 @@ export const Details = () => {
                          </Link>
                     ))}
                 </div>
+            )}
+
+            {relatedContent.length > 0 && (
+              <div className="mt-12 px-2 md:px-0">
+                <h2 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6 flex items-center gap-3">
+                  <span className="w-1.5 h-7 bg-purple-600 rounded-full"></span>
+                  Có thể bạn cũng thích
+                </h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+                  {relatedContent.map(item => (
+                    <ContentCard key={item.id} item={item} />
+                  ))}
+                </div>
+              </div>
             )}
         </div>
       </div>
